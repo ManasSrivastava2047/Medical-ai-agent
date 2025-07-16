@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Medical Assistant</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #CAF0F8;
+            color: #03045E;
+        }
+
+        header {
+            background-color: #03045E;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 30px 60px;
+        }
+
+        .user-info-box {
+            width: 25%;
+            background-color: #90E0EF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-info-box h3 {
+            margin-bottom: 15px;
+            color: #0077B6;
+        }
+
+        .main-content {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #0077B6;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        form input[type="submit"] {
+            background-color: #0077B6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #00B4D8;
+        }
+
+        .response {
+            font-size: 1.3em;
+            color: #03045E;
+            background-color: #CAF0F8;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            text-align: center;
+        }
+
+        .details {
+            margin-top: 20px;
+            background-color: #90E0EF;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            font-size: 1em;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+            color: #03045E;
+        }
+
+        .details p:first-child {
+            font-weight: bold;
+            color: #0077B6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🤖 AI Medical Symptom Classifier</h1>
+        <p>Your virtual medical assistant, powered by AI</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Left Side: User Details -->
+        <div class="user-info-box">
+            {% if user_info %}
+                <h3>👤 User Info</h3>
+                <p><strong>Name:</strong> {{ user_info.name }}</p>
+                <p><strong>Age:</strong> {{ user_info.age }}</p>
+                <p><strong>Email:</strong> {{ user_info.email }}</p>
+                <p><strong>Phone:</strong> {{ user_info.phone }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Right Side: Main AI Response -->
+        <div class="main-content">
+            <form method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="number" name="age" placeholder="Your Age" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="text" name="phone" placeholder="Phone Number" required>
+                <input type="text" name="symptom" placeholder="Describe your symptom..." required>
+                <input type="submit" value="Analyze Symptom">
+            </form>
+
+            {% if result %}
+            <div class="response">
+                <p><strong>Classification:</strong> {{ result }}</p>
+            </div>
+            {% endif %}
+
+            {% if details %}
+            <div class="details">
+                <p>Additional Medical Insight:</p>
+                <p>{{ details }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>
