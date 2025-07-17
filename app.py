@@ -4,10 +4,8 @@ from langgraph.graph import StateGraph, END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 
+os.environ["GOOGLE_API_KEY"] = "AIzaSyC9KE_S-mPkGrBskCGTmDBkMv-hz5HCxlM"
 
-api_key = os.getenv("API_KEY")
-
-os.environ["GOOGLE_API_KEY"] = api_key
 
 app = Flask(__name__)
 
