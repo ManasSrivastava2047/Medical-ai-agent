@@ -11,6 +11,16 @@ app = Flask(__name__)
 
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
 
+@app.route('/book', methods=['GET', 'POST'])
+def book():
+    if request.method == 'POST':
+        # process form data
+        name = request.form['name']
+        return f"Appointment booked for {name}"
+    return render_template('bookappt.html')
+
+
+
 def get_symptom(state: dict) -> dict:
     state["symptom"] = state.get("symptom", "")
     return state
@@ -96,6 +106,7 @@ builder.add_edge("emergency", END)
 builder.add_edge("mental_health", END)
 
 graph = builder.compile()
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
