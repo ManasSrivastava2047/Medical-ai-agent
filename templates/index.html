@@ -1,159 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>AI Medical Assistant</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #CAF0F8;
-            color: #03045E;
-        }
+  <meta charset="UTF-8">
+  <title>Title-page</title>
+  <style>
+    body {
+      background: #0c0729;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: monospace;
+      font-size: 4rem;
+    }
 
-        header {
-            background-color: #03045E;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 30px 60px;
-        }
+    .welcome {
+      font-size: 1.8rem;
+      color: #ffffffcc;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .text {
+  filter: brightness(2);
+  text-shadow: 0 0 5px #ffffffcc, 0 0 10px #ffffffaa;
+}
 
-        .user-info-box {
-            width: 25%;
-            background-color: #90E0EF;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+    .text span {        
+      opacity: 0.2;
+      animation: fadeInOut 2s linear infinite alternate;
+      display: inline-block;
+    }
 
-        .user-info-box h3 {
-            margin-bottom: 15px;
-            color: #0077B6;
-        }
+    .text span:nth-child(1)  { animation-delay: 0s; }
+    .text span:nth-child(2)  { animation-delay: 0.1s; }
+    .text span:nth-child(3)  { animation-delay: 0.2s; }
+    .text span:nth-child(4)  { animation-delay: 0.3s; }
+    .text span:nth-child(5)  { animation-delay: 0.4s; }
+    .text span:nth-child(6)  { animation-delay: 0.5s; }
+    .text span:nth-child(7)  { animation-delay: 0.6s; }
+    .text span:nth-child(8)  { animation-delay: 0.7s; }
 
-        .main-content {
-            width: 70%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .text span.dot {
+      animation: fadeBounce 2s linear infinite alternate;
+      animation-delay: 0.8s;
+      margin: 0 5px;
+    }
 
-        form {
-            background-color: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 30px;
-        }
+    .text span:nth-child(10) { animation-delay: 0.9s; }
+    .text span:nth-child(11) { animation-delay: 1s; }
 
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #0077B6;
-            border-radius: 6px;
-            font-size: 16px;
-        }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.2; transform: translateY(0); }
+      50%      { opacity: 1; }
+    }
 
-        form input[type="submit"] {
-            background-color: #0077B6;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    @keyframes fadeBounce {
+      0%, 100% {
+        opacity: 0.2;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+    }
 
-        form input[type="submit"]:hover {
-            background-color: #00B4D8;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .response {
-            font-size: 1.3em;
-            color: #03045E;
-            background-color: #CAF0F8;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            text-align: center;
-        }
+    .btn {
+      margin-top: 50px;
+      height: 75px;
+      width: 175px;
+      background-image: linear-gradient(to bottom right, rgb(215, 88, 9), rgb(240, 150, 53));
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      padding: 0px 5px 0px 5px;
+      font-family: monospace;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .details {
-            margin-top: 20px;
-            background-color: #90E0EF;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            font-size: 1em;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
-            color: #03045E;
-        }
-
-        .details p:first-child {
-            font-weight: bold;
-            color: #0077B6;
-        }
-    </style>
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 136, 0, 0.5);
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <div class="welcome">Namaste! Welcome to</div>
 
-    <header>
-        <h1>AI Medical Symptom Classifier</h1>
-        <p>Your virtual medical assistant, powered by AI</p>
-    </header>
-
-    <div class="container">
-
-        <!-- Left Side: User Details -->
-        <div class="user-info-box">
-            {% if user_info %}
-                <h3>👤 User Info</h3>
-                <p><strong>Name:</strong> {{ user_info.name }}</p>
-                <p><strong>Age:</strong> {{ user_info.age }}</p>
-                <p><strong>Email:</strong> {{ user_info.email }}</p>
-                <p><strong>Phone:</strong> {{ user_info.phone }}</p>
-            {% endif %}
-        </div>
-
-        <!-- Right Side: Main AI Response -->
-        <div class="main-content">
-            <form method="POST">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="number" name="age" placeholder="Your Age" required>
-                <input type="email" name="email" placeholder="Email Address" required>
-                <input type="text" name="phone" placeholder="Phone Number" required>
-                <input type="text" name="symptom" placeholder="Describe your symptom..." required>
-                <input type="submit" value="Analyze Symptom">
-            </form>
-
-            {% if result %}
-            <div class="response">
-                <p><strong>Classification:</strong> {{ result }}</p>
-            </div>
-            {% endif %}
-
-            {% if details %}
-            <div class="details">
-                <p>Additional Medical Insight:</p>
-                <p>{{ details }}</p>
-            </div>
-            {% endif %}
-        </div>
+    <div class="text">
+      <span>C</span>
+      <span>H</span>
+      <span>I</span>
+      <span>K</span>
+      <span>I</span>
+      <span>T</span>
+      <span>S</span>
+      <span>A</span>
+      <span class="dot">.</span>
+      <span>A</span>
+      <span>I</span>
     </div>
 
+    <button class="btn" onclick="location.href='./bookappt.html'">Book Appointment</button>
+  </div>
 </body>
 </html>
