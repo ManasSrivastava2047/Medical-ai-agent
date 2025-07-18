@@ -131,7 +131,7 @@
 
         <!-- Right Side: Main AI Response -->
         <div class="main-content">
-            <form method="POST">
+            <form method="POST" action="/book">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="number" name="age" placeholder="Your Age" required>
                 <input type="email" name="email" placeholder="Email Address" required>
@@ -142,7 +142,7 @@
 
             {% if result %}
             <div class="response">
-                <p><strong>Classification:</strong> {{ result }}</p>
+                <p><strong>{{ result }}</strong></p>
             </div>
             {% endif %}
 
@@ -152,6 +152,7 @@
                 <p>{{ details }}</p>
             </div>
             {% endif %}
+
         </div>
     </div>
 

@@ -6,22 +6,16 @@ from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
 import os
 
-load_dotenv() 
-api_key = os.getenv("GOOGLE_API_KEY") 
-os.environ["GOOGLE_API_KEY"] = api_key 
+load_dotenv()
+api_key = os.getenv("GOOGLE_API_KEY")
+if api_key is None:
+    raise ValueError("GOOGLE_API_KEY is not set in the environment or .env file.")
+
+os.environ["GOOGLE_API_KEY"] = api_key
 
 app = Flask(__name__)
 
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
-
-@app.route('/book', methods=['GET', 'POST'])
-def book():
-    if request.method == 'POST':
-        name = request.form['name']
-        return f"Appointment booked for {name}"
-    return render_template('bookappt.html')
-
-
 
 def get_symptom(state: dict) -> dict:
     state["symptom"] = state.get("symptom", "")
@@ -86,8 +80,6 @@ def mental_health_node(state: dict) -> dict:
     state["details"] = response.content.strip()
     return state
 
-
-
 builder = StateGraph(dict)
 builder.set_entry_point("get_symptom")
 builder.add_node("get_symptom", get_symptom)
@@ -109,9 +101,12 @@ builder.add_edge("mental_health", END)
 
 graph = builder.compile()
 
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/book', methods=['GET', 'POST'])
+def book():
     result = None
     details = None
     user_info = {}
@@ -124,10 +119,10 @@ def index():
 
         user_symptom = request.form['symptom']
         final_state = graph.invoke({"symptom": user_symptom})
-        result = final_state.get("answer")
+        result = f"Classification: {final_state.get('answer')}" # Changed to be more explicit
         details = final_state.get("details")
 
-    return render_template('index.html', result=result, details=details, user_info=user_info)
+    return render_template('bookappt.html', result=result, details=details, user_info=user_info)
 
 if __name__ == '__main__':
     app.run(debug=True)
