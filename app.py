@@ -3,9 +3,12 @@ import os
 from langgraph.graph import StateGraph, END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+from dotenv import load_dotenv
+import os
 
-os.environ["GOOGLE_API_KEY"] = "AIzaSyC9KE_S-mPkGrBskCGTmDBkMv-hz5HCxlM"
-
+load_dotenv() 
+api_key = os.getenv("GOOGLE_API_KEY") 
+os.environ["GOOGLE_API_KEY"] = api_key 
 
 app = Flask(__name__)
 
@@ -14,7 +17,6 @@ llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature
 @app.route('/book', methods=['GET', 'POST'])
 def book():
     if request.method == 'POST':
-        # process form data
         name = request.form['name']
         return f"Appointment booked for {name}"
     return render_template('bookappt.html')
