@@ -9,7 +9,7 @@ import os
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 if api_key is None:
-    raise ValueError("GOOGLE_API_KEY is not set in the environment or .env file.")
+    raise ValueError("GOOGLE_API_KEY is not set in the environment file.")
 
 os.environ["GOOGLE_API_KEY"] = api_key
 
@@ -45,7 +45,7 @@ def symptom_router(state: dict) -> str:
         return "general"
 
 def general_node(state: dict) -> dict:
-    state["answer"] = f"{state['symptom']} → Seems general. Directing you to the general ward."
+    state["answer"] = f"{state['symptom']} → \n<span class='final-res-general'>Seems general. Directing you to the general ward.</span>".replace("\n","<br>")
 
     explain_prompt = (
         f"Explain the possible causes and medical relevance of the symptom: '{state['symptom']}' "
@@ -57,7 +57,7 @@ def general_node(state: dict) -> dict:
     return state
 
 def emergency_node(state: dict) -> dict:
-    state["answer"] = f"{state['symptom']} → It is a medical emergency! Seeking immediate help."
+    state["answer"] = f"{state['symptom']} → \n<span class='final-res-emergency'>It is a medical emergency! Seeking immediate help.</span>".replace("\n","<br>")
 
     explain_prompt = (
         f"The symptom '{state['symptom']}' may indicate an emergency. "
@@ -69,7 +69,7 @@ def emergency_node(state: dict) -> dict:
     return state
 
 def mental_health_node(state: dict) -> dict:
-    state["answer"] = f"{state['symptom']} → This may be a mental health issue. Please talk to our counselor."
+    state["answer"] = f"{state['symptom']} → \n<span class='final-res-mental'>This may be a mental health issue. Please talk to our counselor.</span>".replace("\n","<br>")
 
     explain_prompt = (
         f"Explain in 4–5 lines what might be the causes or concerns behind the symptom: '{state['symptom']}' "
@@ -119,7 +119,7 @@ def book():
 
         user_symptom = request.form['symptom']
         final_state = graph.invoke({"symptom": user_symptom})
-        result = f"Classification: {final_state.get('answer')}" # Changed to be more explicit
+        result = f"Classification: {final_state.get('answer')}"
         details = final_state.get("details")
 
     return render_template('bookappt.html', result=result, details=details, user_info=user_info)

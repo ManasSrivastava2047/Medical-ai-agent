@@ -107,6 +107,23 @@
             font-weight: bold;
             color: #0077B6;
         }
+        .final-res-emergency {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  .final-res-general {
+    color: rgb(14, 14, 250);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  .final-res-mental {
+    color: rgb(9, 168, 14);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+</style>
+
     </style>
 </head>
 <body>
@@ -140,9 +157,10 @@
                 <input type="submit" value="Analyze Symptom">
             </form>
 
+            <button class="redirect">Go to </button>
             {% if result %}
             <div class="response">
-                <p><strong>{{ result }}</strong></p>
+                <p><strong>{{ result | safe }}</strong></p>
             </div>
             {% endif %}
 
