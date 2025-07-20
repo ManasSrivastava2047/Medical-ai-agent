@@ -80,6 +80,8 @@
 
         form input[type="submit"]:hover {
             background-color: #00B4D8;
+                      transform: scale(1.05);
+      box-shadow: 0 0 20px rgb(63, 243, 222);
         }
 
         .response {
@@ -122,6 +124,21 @@
     font-weight: bold;
     font-size: 1.2rem;
   }
+  .gotoDoctorBtn{
+margin-top: 20px;
+    font-style: oblique;
+    height: 30px;
+    width: 90px;
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    align-self: center
+
+  }
+  .gotoDoctorBtn:hover{
+          transform: scale(1.05);
+      box-shadow: 0 0 20px rgb(63, 243, 222);
+  }
 </style>
 
     </style>
@@ -154,10 +171,13 @@
                 <input type="email" name="email" placeholder="Email Address" required>
                 <input type="text" name="phone" placeholder="Phone Number" required>
                 <input type="text" name="symptom" placeholder="Describe your symptom..." required>
-                <input type="submit" value="Analyze Symptom">
-            </form>
-
-            <button class="redirect">Go to </button>
+                <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
+            </form> 
+            {% if result %}
+            <button class="gotoDoctorBtn" onclick="location.href='/general'">Go to </button>
+{% else %}
+<button class="gotoDoctorBtn" onclick="location.href='/general'" disabled>Go to </button>
+{% endif %}
             {% if result %}
             <div class="response">
                 <p><strong>{{ result | safe }}</strong></p>
@@ -173,6 +193,23 @@
 
         </div>
     </div>
+    <script>
+        const form = document.querySelector("form");
+
+  const analyzeBtn = document.getElementById("analyzeBtn");
+  const gotoDoctorBtn = document.querySelector(".gotoDoctorBtn");
+
+  form.addEventListener("input", function () {
+    analyzeBtn.disabled = false;
+  });
+
+  form.addEventListener("submit", function (e) {
+    setTimeout(() => {
+      document.body.insertAdjacentHTML("beforeend", `<p>Diagnosis complete. Proceed to doctor.</p>`);
+      gotoDoctorBtn.disabled = false;
+    }, 1000); 
+  });
+</script>
 
 </body>
 </html>
