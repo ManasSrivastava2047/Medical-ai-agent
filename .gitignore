@@ -10,3 +10,6 @@ __pycache__/
 
 # Virtual environment folder 
 venv/
+# Ignore SSH key files
+AI_AGENT_MDEICOS
+AI_AGENT_MDEICOS*

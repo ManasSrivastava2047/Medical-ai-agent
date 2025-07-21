@@ -85,11 +85,6 @@ graph = builder.compile()
 def index():
     return render_template('index.html')
 
-@app.route('/departments/general-medicine')
-def general_medicine():
-    return render_template("departments/general-medicine.html")
-
-
 @app.route('/book', methods=['GET', 'POST'])
 def book():
     result = None
@@ -108,11 +103,18 @@ def book():
         result = f"Classification: {final_state.get('answer')}"
         details = final_state.get("details")
         category = final_state.get("category", "general").lower().replace(" ", "")
-        redirect_url = redirect_map.get(category, "general.html")
+        redirect_url = f"/departments/{redirect_map.get(category, 'general.html')}"
         redirect_text = category.replace("_", " ").title()
 
     return render_template('bookappt.html', result=result, details=details, user_info=user_info,
                            redirect_url=redirect_url, redirect_text=redirect_text)
+
+@app.route('/departments/<department_name>')
+def department_page(department_name):
+    try:
+        return render_template(f"departments/{department_name}")
+    except:
+        return "Page not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True)
