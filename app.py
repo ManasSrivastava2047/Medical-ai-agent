@@ -85,6 +85,11 @@ graph = builder.compile()
 def index():
     return render_template('index.html')
 
+@app.route('/departments/general-medicine')
+def general_medicine():
+    return render_template("departments/general-medicine.html")
+
+
 @app.route('/book', methods=['GET', 'POST'])
 def book():
     result = None
