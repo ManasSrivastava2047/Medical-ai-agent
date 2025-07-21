@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>General Ward</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #2e86de;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .symptoms {
+      background-color: #eaf4ff;
+      padding: 1rem 2rem;
+      margin: 1rem;
+      border-radius: 8px;
+    }
+
+    .symptoms h2 {
+      margin-top: 0;
+      color: #2e86de;
+    }
+
+    .symptoms ul {
+      padding-left: 1.5rem;
+    }
+
+    .doctors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .doctor-card {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .doctor-card:hover {
+      transform: scale(1.02);
+    }
+
+    .doctor-card h3 {
+      margin: 0;
+      color: #2e86de;
+    }
+
+    .doctor-card p {
+      margin: 0.3rem 0;
+    }
+
+    .wait-btn {
+      margin-top: 0.5rem;
+      background-color: #2e86de;
+      color: white;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .wait-btn:hover {
+      background-color: #1e5fa5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>General Ward</h1>
+  </header>
+
+  <section class="symptoms">
+    <h2>Common Symptoms We Handle</h2>
+    <ul>
+      <li>Fever</li>
+      <li>Fatigue</li>
+      <li>Mild pain or body aches</li>
+      <li>Cough and cold</li>
+      <li>Headache</li>
+      <li>Digestive issues</li>
+    </ul>
+  </section>
+
+  <section class="doctors">
+    <div class="doctor-card">
+      <h3>Dr. Ayesha Kapoor</h3>
+      <p><strong>Qualification:</strong> MBBS, MD (Internal Medicine)</p>
+      <p><strong>Timings:</strong> 9:00 AM - 1:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait1">5</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+    </div>
+
+    <div class="doctor-card">
+      <h3>Dr. Rohan Malhotra</h3>
+      <p><strong>Qualification:</strong> MBBS, DNB</p>
+      <p><strong>Timings:</strong> 10:00 AM - 2:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait2">3</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
+    </div>
+
+    <div class="doctor-card">
+      <h3>Dr. Neha Bansal</h3>
+      <p><strong>Qualification:</strong> MBBS, PGDGM</p>
+      <p><strong>Timings:</strong> 11:00 AM - 3:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait3">2</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+    </div>
+
+    <div class="doctor-card">
+      <h3>Dr. Arvind Sinha</h3>
+      <p><strong>Qualification:</strong> MBBS, MD</p>
+      <p><strong>Timings:</strong> 2:00 PM - 6:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait4">6</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait4')">Add to Queue</button>
+    </div>
+
+    <div class="doctor-card">
+      <h3>Dr. Simran Kaur</h3>
+      <p><strong>Qualification:</strong> MBBS, MD</p>
+      <p><strong>Timings:</strong> 3:00 PM - 7:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait5">1</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait5')">Add to Queue</button>
+    </div>
+
+    <div class="doctor-card">
+      <h3>Dr. Rajeev Menon</h3>
+      <p><strong>Qualification:</strong> MBBS, DNB</p>
+      <p><strong>Timings:</strong> 4:00 PM - 8:00 PM</p>
+      <p><strong>Current Waiting:</strong> <span id="wait6">4</span> patients</p>
+      <button class="wait-btn" onclick="increment('wait6')">Add to Queue</button>
+    </div>
+  </section>
+
+  <script>
+    function increment(id) {
+      const span = document.getElementById(id);
+      let count = parseInt(span.innerText);
+      span.innerText = count + 1;
+    }
+  </script>
+</body>
+</html>
