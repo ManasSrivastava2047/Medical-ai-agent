@@ -80,8 +80,8 @@
 
         form input[type="submit"]:hover {
             background-color: #00B4D8;
-                      transform: scale(1.05);
-      box-shadow: 0 0 20px rgb(63, 243, 222);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgb(63, 243, 222);
         }
 
         .response {
@@ -110,105 +110,142 @@
             color: #0077B6;
         }
         .final-res-emergency {
-    color: red;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  .final-res-general {
-    color: rgb(14, 14, 250);
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  .final-res-mental {
-    color: rgb(9, 168, 14);
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  .gotoDoctorBtn{
-margin-top: 20px;
-    font-style: oblique;
-    height: 30px;
-    width: 90px;
-    background-color: black;
-    color: white;
-    border-radius: 8px;
-    align-self: center
-
-  }
-  .gotoDoctorBtn:hover{
-          transform: scale(1.05);
-      box-shadow: 0 0 20px rgb(63, 243, 222);
-  }
-</style>
+            color: red;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .final-res-general {
+            color: rgb(14, 14, 250);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .final-res-mental {
+            color: rgb(9, 168, 14);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .gotoDoctorBtn {
+            margin-top: 20px;
+            font-style: oblique;
+            height: 30px;
+            width: auto;
+            background-color: black;
+            color: white;
+            border-radius: 8px;
+            padding: 5px 15px;
+            align-self: center;
+            transition: all 0.3s ease;
+        }
+        .gotoDoctorBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgb(63, 243, 222);
+        }
+        .final-res-cardiology { color: crimson; font-weight: bold; font-size: 1.2rem; }
+.final-res-neurology { color: purple; font-weight: bold; font-size: 1.2rem; }
+.final-res-ent { color: teal; font-weight: bold; font-size: 1.2rem; }
+.final-res-gynecology { color: deeppink; font-weight: bold; font-size: 1.2rem; }
+.final-res-dermatology { color: orange; font-weight: bold; font-size: 1.2rem; }
+.final-res-oncology { color: darkred; font-weight: bold; font-size: 1.2rem; }
+.final-res-pediatrics { color: blueviolet; font-weight: bold; font-size: 1.2rem; }
+.final-res-dental { color: chocolate; font-weight: bold; font-size: 1.2rem; }
+.final-res-orthopedics { color: sienna; font-weight: bold; font-size: 1.2rem; }
+.final-res-pulmonology { color: steelblue; font-weight: bold; font-size: 1.2rem; }
+.final-res-gastroenterology { color: darkgoldenrod; font-weight: bold; font-size: 1.2rem; }
+.final-res-ophthalmology { color: darkcyan; font-weight: bold; font-size: 1.2rem; }
+.final-res-nephrology { color: darkolivegreen; font-weight: bold; font-size: 1.2rem; }
+.final-res-endocrinology { color: mediumslateblue; font-weight: bold; font-size: 1.2rem; }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>AI Medical Symptom Classifier</h1>
-        <p>Your virtual medical assistant, powered by AI</p>
-    </header>
+<header>
+    <h1>AI Medical Symptom Classifier</h1>
+    <p>Your virtual medical assistant, powered by AI</p>
+</header>
 
-    <div class="container">
-
-        <!-- Left Side: User Details -->
-        <div class="user-info-box">
-            {% if user_info %}
-                <h3>👤 User Info</h3>
-                <p><strong>Name:</strong> {{ user_info.name }}</p>
-                <p><strong>Age:</strong> {{ user_info.age }}</p>
-                <p><strong>Email:</strong> {{ user_info.email }}</p>
-                <p><strong>Phone:</strong> {{ user_info.phone }}</p>
-            {% endif %}
-        </div>
-
-        <!-- Right Side: Main AI Response -->
-        <div class="main-content">
-            <form method="POST" action="/book">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="number" name="age" placeholder="Your Age" required>
-                <input type="email" name="email" placeholder="Email Address" required>
-                <input type="text" name="phone" placeholder="Phone Number" required>
-                <input type="text" name="symptom" placeholder="Describe your symptom..." required>
-                <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
-            </form> 
-            {% if result %}
-            <button class="gotoDoctorBtn" onclick="location.href='/general'">Go to </button>
-{% else %}
-<button class="gotoDoctorBtn" onclick="location.href='/general'" disabled>Go to </button>
-{% endif %}
-            {% if result %}
-            <div class="response">
-                <p><strong>{{ result | safe }}</strong></p>
-            </div>
-            {% endif %}
-
-            {% if details %}
-            <div class="details">
-                <p>Additional Medical Insight:</p>
-                <p>{{ details }}</p>
-            </div>
-            {% endif %}
-
-        </div>
+<div class="container">
+    <div class="user-info-box">
+        {% if user_info %}
+        <h3>👤 User Info</h3>
+        <p><strong>Name:</strong> {{ user_info.name }}</p>
+        <p><strong>Age:</strong> {{ user_info.age }}</p>
+        <p><strong>Email:</strong> {{ user_info.email }}</p>
+        <p><strong>Phone:</strong> {{ user_info.phone }}</p>
+        {% endif %}
     </div>
-    <script>
-        const form = document.querySelector("form");
 
-  const analyzeBtn = document.getElementById("analyzeBtn");
-  const gotoDoctorBtn = document.querySelector(".gotoDoctorBtn");
+    <div class="main-content">
+        <form method="POST" action="/book">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="number" name="age" placeholder="Your Age" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="text" name="symptom" placeholder="Describe your symptom in detail..." required>
+            <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
+        </form>
 
-  form.addEventListener("input", function () {
-    analyzeBtn.disabled = false;
-  });
+        {% if result %}
+        <button class="gotoDoctorBtn" onclick="handleRedirect('{{ result }}')">Redirect to Recommended Department</button>
+        {% else %}
+        <button class="gotoDoctorBtn" disabled>Redirect to Department</button>
+        {% endif %}
 
-  form.addEventListener("submit", function (e) {
-    setTimeout(() => {
-      document.body.insertAdjacentHTML("beforeend", `<p>Diagnosis complete. Proceed to doctor.</p>`);
-      gotoDoctorBtn.disabled = false;
-    }, 1000); 
-  });
+        {% if result %}
+        <div class="response">
+            <p><strong>{{ result | safe }}</strong></p>
+        </div>
+        {% endif %}
+
+        {% if details %}
+        <div class="details">
+            <p>Additional Medical Insight:</p>
+            <p>{{ details }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const form = document.querySelector("form");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+
+    form.addEventListener("input", function () {
+        analyzeBtn.disabled = false;
+    });
+
+    function handleRedirect(resultText) {
+        const lower = resultText.toLowerCase();
+        const redirects = {
+            'general': '/departments/general-medicine',
+            'emergency': '/departments/emergency',
+            'mental': '/departments/psychiatry',
+            'cardiology': '/departments/cardiology',
+            'pulmonology': '/departments/pulmonology',
+            'gastroenterology': '/departments/gastroenterology',
+            'neurology': '/departments/neurology',
+            'orthopedics': '/departments/orthopedics',
+            'pediatrics': '/departments/pediatrics',
+            'gynecology': '/departments/gynecology',
+            'dermatology': '/departments/dermatology',
+            'ent': '/departments/ent',
+            'ophthalmology': '/departments/ophthalmology',
+            'nephrology': '/departments/nephrology',
+            'endocrinology': '/departments/endocrinology',
+            'oncology': '/departments/oncology',
+            'dental': '/departments/dental'
+        };
+
+        for (const key in redirects) {
+            if (lower.includes(key)) {
+                window.location.href = redirects[key];
+                return;
+            }
+        }
+
+        alert("Department not specifically matched. Redirecting to General Medicine.");
+        window.location.href = '/departments/general-medicine';
+    }
 </script>
 
 </body>
