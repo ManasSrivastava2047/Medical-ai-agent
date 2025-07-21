@@ -12,4 +12,4 @@ __pycache__/
 venv/
 # Ignore SSH key files
 AI_AGENT_MDEICOS
-AI_AGENT_MDEICOS*
+AI_AGENT_MDEICOS.pub

@@ -1,21 +1,26 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import os
 from langgraph.graph import StateGraph, END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
-if api_key is None:
+if not api_key:
     raise ValueError("GOOGLE_API_KEY is not set in the environment file.")
 
+# Set Google API key for LangChain
 os.environ["GOOGLE_API_KEY"] = api_key
 
+# Initialize Flask app
 app = Flask(__name__)
 
+# Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
 
+# Map for department templates
 redirect_map = {
     "general": "general.html",
     "emergency": "emergency.html",
@@ -37,10 +42,12 @@ redirect_map = {
     "dental": "dental.html",
 }
 
+# Step 1: Retrieve symptom
 def get_symptom(state: dict) -> dict:
     state["symptom"] = state.get("symptom", "")
     return state
 
+# Step 2: Classify into department
 def classify_symptom(state: dict) -> dict:
     prompt = (
         "You are a helpful Medical Assistant. Classify the symptom below into one of these departments:\n"
@@ -53,16 +60,15 @@ def classify_symptom(state: dict) -> dict:
     state["category"] = response.content.strip()
     return state
 
-def symptom_router(state: dict) -> str:
-    cat = state["category"].lower().replace(" ", "")
-    return cat if cat in redirect_map else "general"
-
+# Step 3: Prepare display details
 def detail_node(state: dict) -> dict:
     category = state["category"]
     redirect_key = category.lower().replace(" ", "")
     display_name = category.replace("_", " ").title()
     symptom = state["symptom"]
+
     state["answer"] = f"{symptom} → <span class='final-res-{redirect_key}'>{display_name}</span>"
+
     explain_prompt = (
         f"Explain the likely medical relevance of the symptom: '{symptom}' in 4–5 lines, based on {category} context."
     )
@@ -70,6 +76,7 @@ def detail_node(state: dict) -> dict:
     state["details"] = response.content.strip()
     return state
 
+# Define the state graph
 builder = StateGraph(dict)
 builder.set_entry_point("get_symptom")
 builder.add_node("get_symptom", get_symptom)
@@ -78,9 +85,9 @@ builder.add_node("details", detail_node)
 builder.add_edge("get_symptom", "classify")
 builder.add_edge("classify", "details")
 builder.add_edge("details", END)
-
 graph = builder.compile()
 
+# Routes
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -94,27 +101,36 @@ def book():
     user_info = {}
 
     if request.method == 'POST':
-        user_info['name'] = request.form['name']
-        user_info['age'] = request.form['age']
-        user_info['email'] = request.form['email']
-        user_info['phone'] = request.form['phone']
-        user_symptom = request.form['symptom']
+        user_info['name'] = request.form.get('name', '')
+        user_info['age'] = request.form.get('age', '')
+        user_info['email'] = request.form.get('email', '')
+        user_info['phone'] = request.form.get('phone', '')
+        user_symptom = request.form.get('symptom', '')
+
         final_state = graph.invoke({"symptom": user_symptom})
         result = f"Classification: {final_state.get('answer')}"
         details = final_state.get("details")
+
         category = final_state.get("category", "general").lower().replace(" ", "")
-        redirect_url = f"/departments/{redirect_map.get(category, 'general.html')}"
+        template_name = redirect_map.get(category, 'general.html')
+        redirect_url = f"/departments/{template_name}"
         redirect_text = category.replace("_", " ").title()
 
-    return render_template('bookappt.html', result=result, details=details, user_info=user_info,
-                           redirect_url=redirect_url, redirect_text=redirect_text)
+    return render_template('bookappt.html',
+                           result=result,
+                           details=details,
+                           user_info=user_info,
+                           redirect_url=redirect_url,
+                           redirect_text=redirect_text)
 
-@app.route('/departments/<department_name>')
+@app.route('/departments/<path:department_name>')
+@app.route('/departments/<path:department_name>')
 def department_page(department_name):
     try:
         return render_template(f"departments/{department_name}")
-    except:
-        return "Page not found", 404
+    except Exception as e:
+        return f"Page not found: {e}", 404
 
+# Run the server
 if __name__ == '__main__':
     app.run(debug=True)
