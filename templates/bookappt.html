@@ -32,15 +32,13 @@
             <input type="text" name="symptom" placeholder="Describe your symptom in detail..." required>
             <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
         </form>
-
-        {% if result %}
-        <<button class="gotoDoctorBtn" onclick="handleRedirect('{{ redirect_text | lower | replace(" ", "-") }}')">
+{% if result %}
+<button class="gotoDoctorBtn" onclick="window.location.href='{{ redirect_url }}'">
     Redirect to Recommended Department
 </button>
-
-        {% else %}
-        <button class="gotoDoctorBtn" disabled>Redirect to Department</button>
-        {% endif %}
+{% else %}
+<button class="gotoDoctorBtn" disabled>Redirect to Department</button>
+{% endif %}
 
         {% if result %}
         <div class="response">

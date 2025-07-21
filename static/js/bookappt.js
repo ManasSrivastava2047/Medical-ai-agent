@@ -34,11 +34,3 @@
       window.location.href = '/departments/general-medicine';
     }
   }
-function handleRedirect(deptSlug) {
-    if (deptSlug) {
-        window.location.href = "/departments/" + deptSlug;
-    }
-}
-function handleRedirect(deptName) {
-    window.location.href = `/departments/${deptName}.html`;
-  }
