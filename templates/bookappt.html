@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>AI Medical Assistant</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bookappt.css') }}">
+  <meta charset="UTF-8">
+  <title>AI Medical Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bookappt.css') }}">
 </head>
 <body>
 
 <header>
-    <h1>AI Medical Symptom Classifier</h1>
-    <p>Your virtual medical assistant, powered by AI</p>
+  <h1>AI Medical Symptom Classifier</h1>
+  <p>Your virtual medical assistant, powered by AI</p>
 </header>
 
 <div class="container">
-    <div class="user-info-box">
-        {% if user_info %}
-        <h3>👤 User Info</h3>
-        <p><strong>Name:</strong> {{ user_info.name }}</p>
-        <p><strong>Age:</strong> {{ user_info.age }}</p>
-        <p><strong>Email:</strong> {{ user_info.email }}</p>
-        <p><strong>Phone:</strong> {{ user_info.phone }}</p>
-        {% endif %}
-    </div>
+  <div class="user-info-box">
+      {% if user_info %}
+      <h3>👤 User Info</h3>
+      <p><strong>Name:</strong> {{ user_info.name }}</p>
+      <p><strong>Age:</strong> {{ user_info.age }}</p>
+      <p><strong>Email:</strong> {{ user_info.email }}</p>
+      <p><strong>Phone:</strong> {{ user_info.phone }}</p>
+      {% endif %}
+  </div>
 
-    <div class="main-content">
-        <form method="POST" action="/book">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="number" name="age" placeholder="Your Age" required>
-            <input type="email" name="email" placeholder="Email Address" required>
-            <input type="text" name="phone" placeholder="Phone Number" required>
-            <input type="text" name="symptom" placeholder="Describe your symptom in detail..." required>
-            <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
-        </form>
+  <div class="main-content">
+      <form method="POST" action="/book">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="number" name="age" placeholder="Your Age" required>
+          <input type="email" name="email" placeholder="Email Address" required>
+          <input type="text" name="phone" placeholder="Phone Number" required>
+          <input type="text" name="symptom" placeholder="Describe your symptom in detail..." required>
+          <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
+      </form>
 {% if result %}
 <button class="gotoDoctorBtn" onclick="window.location.href='{{ redirect_url }}'">
-    Redirect to Recommended Department
+  Redirect to Recommended Department
 </button>
 {% else %}
 <button class="gotoDoctorBtn" disabled>Redirect to Department</button>
 {% endif %}
 
-        {% if result %}
-        <div class="response">
-            <p><strong>{{ result | safe }}</strong></p>
-        </div>
-        {% endif %}
+      {% if result %}
+      <div class="response">
+          <p><strong>{{ result | safe }}</strong></p>
+      </div>
+      {% endif %}
 
-        {% if details %}
-        <div class="details">
-            <p>Additional Medical Insight:</p>
-            <p>{{ details }}</p>
-        </div>
-        {% endif %}
-    </div>
+      {% if details %}
+      <div class="details">
+          <p>Additional Medical Insight:</p>
+          <p>{{ details }}</p>
+      </div>
+      {% endif %}
+  </div>
 </div>
 <script src="{{ url_for('static', filename='js/bookappt.js') }}"></script>
 </body>

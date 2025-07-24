@@ -1,94 +1,127 @@
-    body {
-      background: #0c0729;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: monospace;
-      font-size: 4rem;
-    }
+body {
+  background: #0c0729;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: monospace;
+  font-size: 4rem;
+}
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
-    }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
 
-    .welcome {
-      font-size: 1.8rem;
-      color: #ffffffcc;
-      animation: fadeIn 2s ease-in-out;
-    }
-    .text {
-      filter: brightness(2);
-      text-shadow: 0 0 5px #ffffffcc, 0 0 10px #ffffffaa;
-    }
+.welcome {
+  font-size: 1.8rem;
+  color: #ffffffcc;
+  animation: fadeIn 2s ease-in-out;
+}
+.text {
+  filter: brightness(2);
+  text-shadow: 0 0 5px #ffffffcc, 0 0 10px #ffffffaa;
+}
 
-    .text span {        
-      opacity: 0.2;
-      animation: fadeInOut 2s linear infinite alternate;
-      display: inline-block;
-    }
+.text span {
+  opacity: 0.2;
+  animation: fadeInOut 2s linear infinite alternate;
+  display: inline-block;
+}
 
-    .text span:nth-child(1)  { animation-delay: 0s; }
-    .text span:nth-child(2)  { animation-delay: 0.1s; }
-    .text span:nth-child(3)  { animation-delay: 0.2s; }
-    .text span:nth-child(4)  { animation-delay: 0.3s; }
-    .text span:nth-child(5)  { animation-delay: 0.4s; }
-    .text span:nth-child(6)  { animation-delay: 0.5s; }
-    .text span:nth-child(7)  { animation-delay: 0.6s; }
-    .text span:nth-child(8)  { animation-delay: 0.7s; }
+.text span:nth-child(1) {
+  animation-delay: 0s;
+}
+.text span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.text span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.text span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.text span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.text span:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.text span:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.text span:nth-child(8) {
+  animation-delay: 0.7s;
+}
 
-    .text span.dot {
-      animation: fadeBounce 2s linear infinite alternate;
-      animation-delay: 0.8s;
-      margin: 0 5px;
-    }
+.text span.dot {
+  animation: fadeBounce 2s linear infinite alternate;
+  animation-delay: 0.8s;
+  margin: 0 5px;
+}
 
-    .text span:nth-child(10) { animation-delay: 0.9s; }
-    .text span:nth-child(11) { animation-delay: 1s; }
+.text span:nth-child(10) {
+  animation-delay: 0.9s;
+}
+.text span:nth-child(11) {
+  animation-delay: 1s;
+}
 
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.2; transform: translateY(0); }
-      50%      { opacity: 1; }
-    }
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+  }
+}
 
-    @keyframes fadeBounce {
-      0%, 100% {
-        opacity: 0.2;
-        transform: translateY(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(-10px);
-      }
-    }
+@keyframes fadeBounce {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .btn {
-      margin-top: 50px;
-      height: 75px;
-      width: 175px;
-      background-image: linear-gradient(to bottom right, rgb(215, 88, 9), rgb(240, 150, 53));
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.2rem;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      padding: 0px 5px 0px 5px;
-      font-family: monospace;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.btn {
+  margin-top: 50px;
+  height: 75px;
+  width: 175px;
+  background-image: linear-gradient(to bottom right, rgb(215, 88, 9), rgb(240, 150, 53));
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 0px 5px 0px 5px;
+  font-family: monospace;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 136, 0, 0.5);
-    }
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 136, 0, 0.5);
+}

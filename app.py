@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, jsonify
 import os
 from langgraph.graph import StateGraph, END
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -20,26 +20,27 @@ app = Flask(__name__)
 # Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
 
-# Map for department templates
+# Map for department slugs to be used in URLs and template names.
+# The keys are derived from the AI classification, and values are the base names of the HTML templates.
 redirect_map = {
-    "general": "general.html",
-    "emergency": "emergency.html",
-    "mentalhealth": "mental_health.html",
-    "cardiology": "cardiology.html",
-    "pulmonology": "pulmonology.html",
-    "gastroenterology": "gastroenterology.html",
-    "neurology": "neurology.html",
-    "orthopedics": "orthopedics.html",
-    "pediatrics": "pediatrics.html",
-    "gynecology": "gynecology.html",
-    "dermatology": "dermatology.html",
-    "ent": "ent.html",
-    "ophthalmology": "ophthalmology.html",
-    "psychiatry": "psychiatry.html",
-    "urology": "urology.html",
-    "endocrinology": "endocrinology.html",
-    "oncology": "oncology.html",
-    "dental": "dental.html",
+    "general": "generalmedicine", # Maps to generalmedicine.html
+    "emergency": "emergency",
+    "mentalhealth": "mental_health",
+    "cardiology": "cardiology",
+    "pulmonology": "pulmonology",
+    "gastroenterology": "gastroenterology",
+    "neurology": "neurology",
+    "orthopedics": "orthopedics",
+    "pediatrics": "pediatrics",
+    "gynecology": "gynecology",
+    "dermatology": "dermatology",
+    "ent": "ent",
+    "ophthalmology": "ophthalmology",
+    "psychiatry": "psychiatry",
+    "urology": "urology",
+    "endocrinology": "endocrinology",
+    "oncology": "oncology",
+    "dental": "dental",
 }
 
 # Step 1: Retrieve symptom
@@ -112,8 +113,9 @@ def book():
         details = final_state.get("details")
 
         category = final_state.get("category", "general").lower().replace(" ", "")
-        template_name = redirect_map.get(category, 'general.html')
-        redirect_url = f"/departments/{template_name}"
+        # Get the department slug from the map, defaulting to 'generalmedicine'
+        department_slug = redirect_map.get(category, 'generalmedicine')
+        redirect_url = f"/departments/{department_slug}"
         redirect_text = category.replace("_", " ").title()
 
     return render_template('bookappt.html',
@@ -123,13 +125,46 @@ def book():
                            redirect_url=redirect_url,
                            redirect_text=redirect_text)
 
-@app.route('/departments/<path:department_name>')
-@app.route('/departments/<path:department_name>')
-def department_page(department_name):
+# Modified route to handle department pages
+@app.route('/departments/<department_slug>')
+def department_page(department_slug):
     try:
-        return render_template(f"departments/{department_name}")
+        # Attempt to render the specific department template by appending .html
+        return render_template(f"departments/{department_slug}.html")
     except Exception as e:
-        return f"Page not found: {e}", 404
+        # If the specific department template is not found,
+        # fall back to the general medicine page, similar to the JS handleRedirect's else block.
+        print(f"Error rendering department template '{department_slug}.html': {e}. Falling back to general medicine.")
+        return render_template("departments/generalmedicine.html")
+
+# New API endpoint for General Medicine AI chat
+@app.route('/api/chat/general-medicine', methods=['POST'])
+def general_medicine_chat():
+    data = request.get_json()
+    user_message = data.get('message')
+
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
+
+    # System prompt to guide the AI's persona and knowledge
+    system_prompt = (
+        "You are a helpful and knowledgeable AI assistant specializing in general medicine. "
+        "Provide concise and accurate information related to common symptoms, general health advice, "
+        "and typical treatments. Do not diagnose or prescribe medication. Always advise consulting "
+        "a qualified medical professional for personalized advice. Keep your responses brief and to the point."
+    )
+
+    try:
+        # Invoke the LLM with the system message and user's message
+        response = llm.invoke([
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_message)
+        ])
+        ai_response = response.content.strip()
+        return jsonify({"response": ai_response})
+    except Exception as e:
+        print(f"Error invoking LLM: {e}")
+        return jsonify({"error": "Failed to get AI response"}), 500
 
 # Run the server
 if __name__ == '__main__':
