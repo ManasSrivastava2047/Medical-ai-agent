@@ -51,3 +51,63 @@ function startCountdown(seconds, displayElement, buttonElement) {
     seconds--
   }, 1000)
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const userInput = document.getElementById("user-input")
+  const sendButton = document.getElementById("send-button")
+  const chatMessages = document.getElementById("chat-messages")
+
+  // Function to add a message to the chat display
+  function addMessage(sender, message) {
+    const messageDiv = document.createElement("div")
+    messageDiv.classList.add("message", `${sender}-message`)
+    messageDiv.textContent = message
+    chatMessages.appendChild(messageDiv)
+    chatMessages.scrollTop = chatMessages.scrollHeight // Scroll to bottom
+  }
+
+  // Function to send message to AI
+  async function sendMessage() {
+    const message = userInput.value.trim()
+    if (!message) return
+
+    addMessage("user", message)
+    userInput.value = "" // Clear input
+
+    // Add a "typing" indicator
+    const typingIndicator = document.createElement("div")
+    typingIndicator.classList.add("message", "ai-message", "typing-indicator")
+    typingIndicator.textContent = "AI is typing..."
+    chatMessages.appendChild(typingIndicator)
+    chatMessages.scrollTop = chatMessages.scrollHeight
+
+    try {
+      const response = await fetch("/api/chat/general-medicine", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: message }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      chatMessages.removeChild(typingIndicator) // Remove typing indicator
+      addMessage("ai", data.response)
+    } catch (error) {
+      console.error("Error:", error)
+      chatMessages.removeChild(typingIndicator) // Remove typing indicator
+      addMessage("ai", "Sorry, I could not get a response. Please try again.")
+    }
+  }
+
+  // Event listeners
+  sendButton.addEventListener("click", sendMessage)
+  userInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      sendMessage()
+    }
+  })
+})

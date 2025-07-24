@@ -1,24 +1,100 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background-color: #feffc4;
-  color: #333;
-}
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #FEFFC4;
+      color: #333;
+    }
 
-header {
-  background-color: #051642;
-  color: white;
-  padding: 2.5rem 1rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    header {
+      background-color: #051642;
+      color: white;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-header h1 {
-  font-size: 3rem;
-  margin: 0;
-}
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
 
-.symptoms {
+    .symptoms {
+      background-color: white;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .symptoms h2 {
+      margin-top: 0;
+      color: #799EFF;
+    }
+
+    .symptoms ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .doctors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .doctor-card {
+      background-color: white;
+      border: 2px solid #FFDE63;
+      border-radius: 15px;
+      padding: 1.2rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    .doctor-card:hover {
+      transform: scale(1.025);
+    }
+
+    .doctor-card h3 {
+      margin: 0;
+      color: #799EFF;
+      font-size: 1.25rem;
+    }
+
+    .doctor-card p {
+      margin: 0.4rem 0;
+      line-height: 1.4;
+    }
+
+    .wait-btn {
+      margin-top: 0.6rem;
+      background-color: #FFBC4C;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    .wait-btn:hover {
+      background-color: #e0a740;
+    }
+
+    .wait-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+
+    .wait-time {
+      font-size: 0.95rem;
+      color: #799EFF;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    .ai-chat-section {
   background-color: white;
   padding: 1.5rem 2rem;
   margin: 1.5rem;
@@ -26,71 +102,83 @@ header h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.symptoms h2 {
+.ai-chat-section h2 {
   margin-top: 0;
   color: #799eff;
+  margin-bottom: 1rem;
 }
 
-.symptoms ul {
-  padding-left: 1.5rem;
-  margin-top: 0.5rem;
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 400px; /* Fixed height for chat window */
 }
 
-.doctors {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+.chat-messages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: #f9f9f9;
 }
 
-.doctor-card {
-  background-color: white;
-  border: 2px solid #ffde63;
+.message {
+  margin-bottom: 0.75rem;
+  padding: 0.6rem 1rem;
   border-radius: 15px;
-  padding: 1.2rem;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
-.doctor-card:hover {
-  transform: scale(1.025);
+.user-message {
+  background-color: #dcf8c6; /* Light green for user messages */
+  align-self: flex-end;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
 }
 
-.doctor-card h3 {
-  margin: 0;
-  color: #799eff;
-  font-size: 1.25rem;
+.ai-message {
+  background-color: #e0e0e0; /* Light grey for AI messages */
+  align-self: flex-start;
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
 }
 
-.doctor-card p {
-  margin: 0.4rem 0;
-  line-height: 1.4;
+.typing-indicator {
+  font-style: italic;
+  color: #666;
+  background-color: #f0f0f0;
 }
 
-.wait-btn {
-  margin-top: 0.6rem;
-  background-color: #ffbc4c;
+.chat-input-area {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.chat-input-area input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.chat-input-area button {
+  background-color: #799eff;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 20px;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1rem;
   transition: background-color 0.2s ease;
 }
 
-.wait-btn:hover {
-  background-color: #e0a740;
-}
-
-.wait-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.9;
-}
-
-.wait-time {
-  font-size: 0.95rem;
-  color: #799eff;
-  font-weight: bold;
-  margin-top: 0.5rem;
+.chat-input-area button:hover {
+  background-color: #5c7edb;
 }
