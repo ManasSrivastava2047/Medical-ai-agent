@@ -148,6 +148,7 @@ h3 {
   transition: background-color var(--transition-speed) ease, transform 0.2s ease;
   display: flex;
   align-items: center;
+  ;
   gap: 0.5rem;
   text-decoration: none;
   z-index: 10;
