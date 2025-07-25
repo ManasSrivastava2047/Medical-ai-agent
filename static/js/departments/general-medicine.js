@@ -1,9 +1,10 @@
 function increment(id) {
   const span = document.getElementById(id)
-  const count = Number.parseInt(span.innerText)
-  span.innerText = count + 1
+  let count = Number.parseInt(span.innerText)
+  count++ // Increment the count
+  span.innerText = count // Update the displayed count
 
-  const waitTimeInSeconds = Math.floor(count * 7.5 * 60)
+  const waitTimeInSeconds = Math.floor(count * 7.5 * 60) // Calculate wait time based on new count
 
   const buttons = document.querySelectorAll(".wait-btn")
 
@@ -11,26 +12,23 @@ function increment(id) {
     btn.disabled = true
     btn.style.cursor = "not-allowed"
 
+    // Check if this is the button that was clicked
     if (btn === event.target) {
       btn.innerText = "Booked"
-      btn.style.backgroundColor = "#d63031"
+      btn.style.backgroundColor = "var(--color-error)" // Use CSS variable for consistency
 
       // Add or update estimated wait time display
       const parent = btn.parentElement
-      const existing = parent.querySelector(".wait-time")
-      if (existing) existing.remove()
-
-      const waitInfo = document.createElement("p")
-      waitInfo.className = "wait-time"
-      waitInfo.style.marginTop = "0.5rem"
-      waitInfo.style.fontWeight = "bold"
-      waitInfo.style.color = "#2e86de"
-      parent.appendChild(waitInfo)
-
+      let waitInfo = parent.querySelector(".wait-time")
+      if (!waitInfo) {
+        waitInfo = document.createElement("p")
+        waitInfo.className = "wait-time"
+        parent.appendChild(waitInfo)
+      }
       startCountdown(waitTimeInSeconds, waitInfo, btn)
     } else {
       btn.innerText = "Locked"
-      btn.style.backgroundColor = "#b2bec3"
+      btn.style.backgroundColor = "var(--color-disabled)" // Use CSS variable
     }
   })
 }
@@ -44,13 +42,18 @@ function startCountdown(seconds, displayElement, buttonElement) {
 
     if (seconds <= 0) {
       clearInterval(timer)
+      displayElement.innerText = "Your turn is approaching!" // More encouraging message
       buttonElement.innerText = "Check for your turn"
-      buttonElement.style.backgroundColor = "#2ecc71"
+      buttonElement.style.backgroundColor = "var(--color-success)" // Use CSS variable
+      buttonElement.disabled = false // Re-enable button for checking
+      buttonElement.style.cursor = "pointer"
     }
 
     seconds--
   }, 1000)
 }
+
+// --- AI Chat Functionality ---
 document.addEventListener("DOMContentLoaded", () => {
   const userInput = document.getElementById("user-input")
   const sendButton = document.getElementById("send-button")
@@ -81,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatMessages.scrollTop = chatMessages.scrollHeight
 
     try {
+      // Assuming the Python backend has an endpoint at /api/chat/general-medicine
       const response = await fetch("/api/chat/general-medicine", {
         method: "POST",
         headers: {
@@ -110,4 +114,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 })
-

@@ -1,93 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>General Ward</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/general-medicine.css') }}">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>General Ward - ApexCare Hospital</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/departments/general-medicine.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>
+<header class="hero-header">
+  <div class="header-content">
+    <a href="/bookappt.html" class="back-button" aria-label="Back to Book Appointment">
+      <i class="fas fa-arrow-left"></i>
+    </a>
     <h1>General Ward</h1>
-  </header>
+    <p>Comprehensive care for your everyday health needs.</p>
+  </div>
+</header>
 
-  <section class="symptoms">
-    <h2>Common Symptoms We Handle</h2>
+<main class="container">
+  <section class="symptoms-section card">
+    <h2><i class="fas fa-stethoscope icon"></i> Common Symptoms We Handle</h2>
     <ul>
-      <li>Fever</li>
-      <li>Fatigue</li>
-      <li>Mild pain or body aches</li>
-      <li>Cough and cold</li>
-      <li>Headache</li>
-      <li>Digestive issues</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Fever & Flu-like Symptoms</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Persistent Fatigue & Weakness</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Mild Pain & Body Aches</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Cough, Cold & Respiratory Issues</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Headaches & Migraines</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Digestive Issues & Abdominal Discomfort</li>
+      <li><i class="fas fa-check-circle list-icon"></i> General Health Check-ups</li>
     </ul>
   </section>
 
-  <section class="doctors">
-    <div class="doctor-card">
-      <h3>Dr. Ayesha Kapoor</h3>
-      <p><strong>Qualification:</strong> MBBS, MD (Internal Medicine)</p>
-      <p><strong>Timings:</strong> 9:00 AM - 1:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait1">5</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
-    </div>
+  <section class="doctors-section">
+    <h2><i class="fas fa-user-md icon"></i> Our Experienced General Physicians</h2>
+    <div class="doctor-grid">
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Ayesha Kapoor" class="doctor-avatar">
+        <h3>Dr. Ayesha Kapoor</h3>
+        <p><strong>Qualification:</strong> MBBS, MD (Internal Medicine)</p>
+        <p><strong>Timings:</strong> 9:00 AM - 1:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait1">5</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+      </div>
 
-    <div class="doctor-card">
-      <h3>Dr. Rohan Malhotra</h3>
-      <p><strong>Qualification:</strong> MBBS, DNB</p>
-      <p><strong>Timings:</strong> 10:00 AM - 2:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait2">3</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
-    </div>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Rohan Malhotra" class="doctor-avatar">
+        <h3>Dr. Rohan Malhotra</h3>
+        <p><strong>Qualification:</strong> MBBS, DNB</p>
+        <p><strong>Timings:</strong> 10:00 AM - 2:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait2">3</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
+      </div>
 
-    <div class="doctor-card">
-      <h3>Dr. Neha Bansal</h3>
-      <p><strong>Qualification:</strong> MBBS, PGDGM</p>
-      <p><strong>Timings:</strong> 11:00 AM - 3:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait3">2</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
-    </div>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Neha Bansal" class="doctor-avatar">
+        <h3>Dr. Neha Bansal</h3>
+        <p><strong>Qualification:</strong> MBBS, PGDGM</p>
+        <p><strong>Timings:</strong> 11:00 AM - 3:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait3">2</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+      </div>
 
-    <div class="doctor-card">
-      <h3>Dr. Arvind Sinha</h3>
-      <p><strong>Qualification:</strong> MBBS, MD</p>
-      <p><strong>Timings:</strong> 2:00 PM - 6:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait4">6</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait4')">Add to Queue</button>
-    </div>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Arvind Sinha" class="doctor-avatar">
+        <h3>Dr. Arvind Sinha</h3>
+        <p><strong>Qualification:</strong> MBBS, MD</p>
+        <p><strong>Timings:</strong> 2:00 PM - 6:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait4">6</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait4')">Add to Queue</button>
+      </div>
 
-    <div class="doctor-card">
-      <h3>Dr. Simran Kaur</h3>
-      <p><strong>Qualification:</strong> MBBS, MD</p>
-      <p><strong>Timings:</strong> 3:00 PM - 7:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait5">1</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait5')">Add to Queue</button>
-    </div>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Simran Kaur" class="doctor-avatar">
+        <h3>Dr. Simran Kaur</h3>
+        <p><strong>Qualification:</strong> MBBS, MD</p>
+        <p><strong>Timings:</strong> 3:00 PM - 7:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait5">1</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait5')">Add to Queue</button>
+      </div>
 
-    <div class="doctor-card">
-      <h3>Dr. Rajeev Menon</h3>
-      <p><strong>Qualification:</strong> MBBS, DNB</p>
-      <p><strong>Timings:</strong> 4:00 PM - 8:00 PM</p>
-      <p><strong>Current Waiting:</strong> <span id="wait6">0</span> patients</p>
-      <button class="wait-btn" onclick="increment('wait6')">Add to Queue</button>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Rajeev Menon" class="doctor-avatar">
+        <h3>Dr. Rajeev Menon</h3>
+        <p><strong>Qualification:</strong> MBBS, DNB</p>
+        <p><strong>Timings:</strong> 4:00 PM - 8:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait6">0</span> patients</p>
+        <button class="wait-btn" onclick="increment('wait6')">Add to Queue</button>
+      </div>
     </div>
   </section>
 
-  <section class="ai-chat-section">
-    <h2>Ask Our General Medicine AI Assistant</h2>
+  <section class="ai-chat-section card">
+    <h2><i class="fas fa-robot icon"></i> Ask Our General Medicine AI Assistant</h2>
     <div class="chat-container">
       <div id="chat-messages" class="chat-messages">
         <div class="message ai-message">Hello! I'm your General Medicine AI Assistant. How can I help you today?</div>
       </div>
       <div class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Type your question here...">
-        <button id="send-button">Send</button>
+        <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
+        <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
       </div>
     </div>
   </section>
+</main>
 
-  <script src="{{ url_for('static', filename='js/departments/general-medicine.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/departments/general-medicine-chat.js') }}"></script>
+<footer>
+  <p>&copy; 2025 Hospital. All rights reserved.</p>
+  <div class="social-links">
+    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/departments/general-medicine.js') }}"></script>
+
 </body>
 </html>
