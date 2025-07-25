@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Event listeners
   sendButton.addEventListener("click", sendMessage)
   userInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -111,3 +110,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 })
+
