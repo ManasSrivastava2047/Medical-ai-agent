@@ -2,58 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI Medical Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Medical Assistant - ApexCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bookappt.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<header>
-  <h1>AI Medical Symptom Classifier</h1>
-  <p>Your virtual medical assistant, powered by AI</p>
+<header class="hero-header">
+  <div class="header-content">
+    <a href="/index.html" class="back-button" aria-label="Back to Home">
+      <i class="fas fa-home"></i> Home
+    </a>
+    <h1>AI Medical Symptom Classifier</h1>
+    <p>Your intelligent virtual medical assistant, powered by cutting-edge AI.</p>
+  </div>
 </header>
 
-<div class="container">
-  <div class="user-info-box">
+<main class="container">
+  <aside class="user-info-box card">
+      <h3><i class="fas fa-user-circle icon"></i> Your Profile</h3>
       {% if user_info %}
-      <h3>👤 User Info</h3>
       <p><strong>Name:</strong> {{ user_info.name }}</p>
-      <p><strong>Age:</strong> {{ user_info.age }}</p>
+      <p><strong>Age:</strong> {{ user_info.age }} years</p>
       <p><strong>Email:</strong> {{ user_info.email }}</p>
       <p><strong>Phone:</strong> {{ user_info.phone }}</p>
+      {% else %}
+      <p class="placeholder-text">Please fill out the form to see your details here.</p>
       {% endif %}
-  </div>
+  </aside>
 
-  <div class="main-content">
-      <form method="POST" action="/book">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="number" name="age" placeholder="Your Age" required>
-          <input type="email" name="email" placeholder="Email Address" required>
-          <input type="text" name="phone" placeholder="Phone Number" required>
-          <input type="text" name="symptom" placeholder="Describe your symptom in detail..." required>
-          <input type="submit" value="Analyze Symptom" id="analyzeBtn" disabled>
+  <section class="main-content">
+      <form method="POST" action="/book" class="card">
+          <h2><i class="fas fa-notes-medical icon"></i> Describe Your Symptoms</h2>
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="e.g., John Doe" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="age">Your Age</label>
+            <input type="number" id="age" name="age" placeholder="e.g., 30" required min="1" max="120" aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="e.g., john.doe@example.com" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="e.g., +1234567890" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="symptom">Describe your symptom in detail</label>
+            <textarea id="symptom" name="symptom" rows="5" placeholder="e.g., 'I have a persistent cough for 3 days, accompanied by a mild fever and body aches. I also feel tired.'" required aria-required="true"></textarea>
+          </div>
+          <button type="submit" id="analyzeBtn" disabled class="submit-btn">
+            <span class="button-text"><i class="fas fa-brain"></i> Analyze Symptom</span>
+            <span class="spinner" style="display: none;"></span>
+          </button>
       </form>
-{% if result %}
-<button class="gotoDoctorBtn" onclick="window.location.href='{{ redirect_url }}'">
-  Redirect to Recommended Department
-</button>
-{% else %}
-<button class="gotoDoctorBtn" disabled>Redirect to Department</button>
-{% endif %}
 
       {% if result %}
-      <div class="response">
-          <p><strong>{{ result | safe }}</strong></p>
+      <div class="result-section card">
+          <h2><i class="fas fa-flask icon"></i> Analysis Result</h2>
+          <p class="response-text"><strong>{{ result | safe }}</strong></p>
+          <button class="gotoDoctorBtn" onclick="handleRedirect('{{ department_name }}')">
+            <i class="fas fa-arrow-right"></i> Go to {{ department_name | default('Recommended') }} Department
+          </button>
+      </div>
+      {% else %}
+      <div class="result-section card placeholder-card">
+        <h2><i class="fas fa-flask icon"></i> Analysis Result</h2>
+        <p class="placeholder-text">Your symptom analysis will appear here after submission.</p>
+        <button class="gotoDoctorBtn" disabled>
+          <i class="fas fa-arrow-right"></i> Go to Recommended Department
+        </button>
       </div>
       {% endif %}
 
       {% if details %}
-      <div class="details">
-          <p>Additional Medical Insight:</p>
+      <div class="details-section card">
+          <h2><i class="fas fa-info-circle icon"></i> Additional Medical Insight</h2>
           <p>{{ details }}</p>
       </div>
       {% endif %}
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#" aria-label="Contact Us">Contact Us</a>
   </div>
-</div>
+  <div class="social-links">
+    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
+
 <script src="{{ url_for('static', filename='js/bookappt.js') }}"></script>
 </body>
 </html>

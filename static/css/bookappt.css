@@ -1,206 +1,515 @@
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #caf0f8;
-  color: #03045e;
+/* General Styles & Variables */
+:root {
+  --color-primary: #0077b6; /* Deep Blue */
+  --color-secondary: #00b4d8; /* Sky Blue */
+  --color-accent: #f39c12; /* Muted Orange/Gold */
+  --color-background: #e0f2f7; /* Light Cyan */
+  --color-card-bg: #ffffff;
+  --color-text-dark: #2c3e50; /* Dark Charcoal */
+  --color-text-light: #ecf0f1;
+  --color-success: #2ecc71;
+  --color-error: #e74c3c;
+  --color-disabled: #bdc3c7;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 12px 30px rgba(0, 0, 0, 0.15);
+  --border-radius-card: 15px;
+  --border-radius-input: 8px;
+  --transition-speed: 0.3s;
 }
 
-header {
-  background-color: #03045e;
-  padding: 20px;
-  color: white;
-  text-align: center;
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 30px 60px;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2rem;
 }
 
+.card {
+  background-color: var(--color-card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-medium);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-strong);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-primary);
+  margin-top: 0;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 3.8rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.06em;
+  color: var(--color-text-light); /* Changed h1 color to lighter */
+}
+
+h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-primary);
+}
+
+h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-secondary);
+}
+
+.icon {
+  color: var(--color-accent);
+  font-size: 1.8rem;
+}
+
+.placeholder-text {
+  color: var(--color-disabled);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Header */
+.hero-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #023e8a 100%);
+  color: var(--color-text-light);
+  padding: 4rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+}
+
+.hero-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/placeholder.svg?height=200&width=1200") repeat;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-header p {
+  font-size: 1.4rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+  font-weight: 300;
+}
+
+.back-button {
+  position:absolute;
+  top: 1.5rem; /* Little padding from top */
+  right: 1.5rem; /* Extreme right position with little padding */
+  left: auto; /* Ensure it's not affected by left property */
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-light);
+  border: none;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  z-index: 10;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(5px); /* Changed transform direction for right position */
+}
+
+/* User Info Box */
 .user-info-box {
-  width: 25%;
-  background-color: #90e0ef;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  flex: 0 0 28%; /* Adjusted width */
+  background-color: var(--color-card-bg);
+  border: 1px solid #e0e0e0;
+  box-shadow: var(--shadow-light);
+  height: fit-content; /* Adjust height to content */
+  position: sticky;
+  top: 2rem; /* Stick to top with some margin */
 }
 
-.user-info-box h3 {
-  margin-bottom: 15px;
-  color: #0077b6;
+.user-info-box p {
+  margin: 0.7rem 0;
+  font-size: 1.05rem;
 }
 
+.user-info-box strong {
+  color: var(--color-text-dark);
+}
+
+/* Main Content */
 .main-content {
-  width: 70%;
+  flex: 0 0 68%; /* Adjusted width */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2rem;
 }
 
+/* Form */
 form {
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 30px;
+  background-color: var(--color-card-bg);
+  border: 1px solid #e0e0e0;
+  box-shadow: var(--shadow-light);
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-size: 1.05rem;
 }
 
 form input[type="text"],
 form input[type="email"],
-form input[type="number"] {
+form input[type="number"],
+form textarea {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  border: 2px solid #0077b6;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-input);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  box-sizing: border-box; /* Include padding in width */
 }
 
-form input[type="submit"] {
-  background-color: #0077b6;
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+  outline: none;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submit-btn {
+  background-color: var(--color-primary);
   color: white;
-  padding: 10px 20px;
+  padding: 1rem 2rem;
   border: none;
-  font-size: 16px;
-  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-input);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-speed) ease, transform 0.2s ease, box-shadow var(--transition-speed)
+    ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
-form input[type="submit"]:hover {
-  background-color: #00b4d8;
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgb(63, 243, 222);
+.submit-btn:hover:not(:disabled) {
+  background-color: #023e8a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 119, 182, 0.3);
 }
 
-.response {
-  font-size: 1.3em;
-  color: #03045e;
-  background-color: #caf0f8;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
+.submit-btn:disabled {
+  background-color: var(--color-disabled);
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Spinner for loading state */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Result and Details Sections */
+.result-section,
+.details-section {
+  background-color: var(--color-card-bg);
+  border: 1px solid #e0e0e0;
+  box-shadow: var(--shadow-light);
   text-align: center;
 }
 
-.details {
-  margin-top: 20px;
-  background-color: #90e0ef;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  font-size: 1em;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
-  color: #03045e;
+.result-section .response-text {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
-.details p:first-child {
-  font-weight: bold;
-  color: #0077b6;
+.details-section p {
+  font-size: 1.1em;
+  line-height: 1.8;
 }
+
+.gotoDoctorBtn {
+  margin-top: 1.5rem;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: var(--border-radius-input);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: background-color var(--transition-speed) ease, transform 0.2s ease, box-shadow var(--transition-speed)
+    ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gotoDoctorBtn:hover:not(:disabled) {
+  background-color: #e67e22;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+}
+
+.gotoDoctorBtn:disabled {
+  background-color: var(--color-disabled);
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Department-specific result colors (enhanced) */
 .final-res-emergency {
-  color: red;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: var(--color-error);
 }
 .final-res-general {
-  color: rgb(14, 14, 250);
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: var(--color-primary);
 }
 .final-res-mental {
-  color: rgb(9, 168, 14);
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-.gotoDoctorBtn {
-  margin-top: 20px;
-  font-style: oblique;
-  height: 30px;
-  width: auto;
-  background-color: black;
-  color: white;
-  border-radius: 8px;
-  padding: 5px 15px;
-  align-self: center;
-  transition: all 0.3s ease;
-}
-.gotoDoctorBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgb(63, 243, 222);
+  color: var(--color-success);
 }
 .final-res-cardiology {
-  color: crimson;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #c0392b;
+} /* Darker Red */
 .final-res-neurology {
-  color: purple;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #8e44ad;
+} /* Darker Purple */
 .final-res-ent {
-  color: teal;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #16a085;
+} /* Darker Teal */
 .final-res-gynecology {
-  color: deeppink;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #e84393;
+} /* Vibrant Pink */
 .final-res-dermatology {
-  color: orange;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #d35400;
+} /* Darker Orange */
 .final-res-oncology {
-  color: darkred;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #a00000;
+} /* Even Darker Red */
 .final-res-pediatrics {
-  color: blueviolet;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #8e44ad;
+} /* Consistent with neurology for now, can be unique */
 .final-res-dental {
-  color: chocolate;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #d68910;
+} /* Darker Chocolate */
 .final-res-orthopedics {
-  color: sienna;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #a0522d;
+} /* Darker Sienna */
 .final-res-pulmonology {
-  color: steelblue;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #2980b9;
+} /* Darker Steelblue */
 .final-res-gastroenterology {
-  color: darkgoldenrod;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #b8860b;
+} /* Darker Goldenrod */
 .final-res-ophthalmology {
-  color: darkcyan;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #008b8b;
+} /* Darker Darkcyan */
 .final-res-nephrology {
-  color: darkolivegreen;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+  color: #556b2f;
+} /* Darker Darkolivegreen */
 .final-res-endocrinology {
-  color: mediumslateblue;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: #6a5acd;
+} /* Darker Mediumslateblue */
+
+/* Footer */
+.site-footer {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.site-footer p {
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color var(--transition-speed) ease;
+}
+
+.footer-links a:hover {
+  color: var(--color-accent);
+}
+
+.social-links a {
+  color: var(--color-text-light);
+  font-size: 1.5rem;
+  margin: 0 0.75rem;
+  transition: color var(--transition-speed) ease;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .user-info-box,
+  .main-content {
+    flex: 0 0 100%;
+    width: 100%;
+    position: static; /* Remove sticky behavior on smaller screens */
+  }
+
+  .user-info-box {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.8rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  .hero-header {
+    padding: 3rem 1rem;
+  }
+
+  .back-button {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  form input,
+  form textarea,
+  .submit-btn,
+  .gotoDoctorBtn {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  .result-section .response-text {
+    font-size: 1.2em;
+  }
+
+  .details-section p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-header p {
+    font-size: 1.1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+  }
 }
