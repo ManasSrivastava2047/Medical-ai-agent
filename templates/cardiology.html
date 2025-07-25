@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardiology Department - ApexCare Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/cardiology.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="hero-header">
+    <div class="header-content">
+      <a href="/bookappt.html" class="back-button" aria-label="Back to Book Appointment">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Cardiology Department</h1>
+      <p>Expert heart care for a healthier, stronger you.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="symptoms-section card">
+      <h2><i class="fas fa-heartbeat icon"></i> Common Conditions & Services</h2>
+      <ul>
+        <li><i class="fas fa-check-circle list-icon"></i> Chest Pain & Angina Management</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Palpitations & Arrhythmia Diagnosis</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Shortness of Breath & Heart Failure</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Hypertension (High Blood Pressure)</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Dizziness & Fainting Spells</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Swelling in Legs (Edema)</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Cholesterol Management</li>
+      </ul>
+    </section>
+
+    <section class="doctors-section">
+      <h2><i class="fas fa-user-md icon"></i> Our Experienced Cardiologists</h2>
+      <div class="doctor-grid">
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. David Kim" class="doctor-avatar">
+          <h3>Dr. David Kim</h3>
+          <p><strong>Qualification:</strong> MD (Cardiology)</p>
+          <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 4:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait1">4</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+        </div>
+
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Emily White" class="doctor-avatar">
+          <h3>Dr. Emily White</h3>
+          <p><strong>Qualification:</strong> MD (Electrophysiology)</p>
+          <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 5:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait2">2</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
+        </div>
+
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Robert Green" class="doctor-avatar">
+          <h3>Dr. Robert Green</h3>
+          <p><strong>Qualification:</strong> MD (Interventional Cardiology)</p>
+          <p><strong>Timings:</strong> Mon-Fri: 1:00 PM - 7:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait3">3</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-chat-section card">
+      <h2><i class="fas fa-robot icon"></i> Ask Our Cardiology AI Assistant</h2>
+      <div class="chat-container">
+        <div id="chat-messages" class="chat-messages">
+          <div class="message ai-message">Hello! I'm your Cardiology AI Assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
+          <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/departments/cardiology.js') }}"></script>
+</body>
+</html>

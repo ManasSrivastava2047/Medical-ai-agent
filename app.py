@@ -21,11 +21,12 @@ app = Flask(__name__)
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
 
 # Map for department slugs to be used in URLs and template names.
-# The keys are derived from the AI classification, and values are the base names of the HTML templates.
+# The keys are derived from the AI classification (after lowercasing and removing spaces),
+# and values are the base names of the HTML templates.
 redirect_map = {
     "general": "generalmedicine", # Maps to generalmedicine.html
     "emergency": "emergency",
-    "mentalhealth": "mental_health",
+    "mentalhealth": "mental_health", # AI outputs "Mental health", becomes "mentalhealth" for key
     "cardiology": "cardiology",
     "pulmonology": "pulmonology",
     "gastroenterology": "gastroenterology",
@@ -42,6 +43,43 @@ redirect_map = {
     "oncology": "oncology",
     "dental": "dental",
 }
+
+# System prompts for each department's AI assistant
+# Add more as you create new department pages
+DEPARTMENT_AI_PROMPTS = {
+    "general-medicine": (
+        "You are a helpful and knowledgeable AI assistant specializing in general medicine. "
+        "Provide concise and accurate information related to common symptoms, general health advice, "
+        "and typical treatments. Do not diagnose or prescribe medication. Always advise consulting "
+        "a qualified medical professional for personalized advice. Keep your responses brief and to the point."
+    ),
+    "emergency": (
+        "You are a helpful and knowledgeable AI assistant specializing in emergency medical situations. "
+        "Provide concise and accurate information related to urgent symptoms, first aid advice, "
+        "and when to seek immediate medical attention. Emphasize that this is not a substitute for professional "
+        "medical help in an emergency. Do not diagnose or prescribe medication. Keep your responses brief and to the point."
+    ),
+    "cardiology": (
+        "You are a helpful and knowledgeable AI assistant specializing in cardiology (heart health). "
+        "Provide concise and accurate information related to heart conditions, symptoms, and general "
+        "cardiovascular health advice. Do not diagnose or prescribe medication. Always advise consulting "
+        "a qualified cardiologist for personalized advice. Keep your responses brief and to the point."
+    ),
+    "mental_health": (
+        "You are a helpful and knowledgeable AI assistant specializing in mental health. "
+        "Provide concise and accurate information related to common mental health conditions, coping strategies, "
+        "and resources for support. Do not diagnose or prescribe medication. Always advise consulting "
+        "a qualified mental health professional for personalized advice. Keep your responses brief and to the point."
+    ),
+    "dental": (
+        "You are a helpful and knowledgeable AI assistant specializing in dental health. "
+        "Provide concise and accurate information related to common dental issues, oral hygiene practices, "
+        "and when to visit a dentist. Do not diagnose or prescribe medication. Always advise consulting "
+        "a qualified dental professional for personalized advice. Keep your responses brief and to the point."
+    ),
+    # Add prompts for other departments here following the same pattern
+}
+
 
 # Step 1: Retrieve symptom
 def get_symptom(state: dict) -> dict:
@@ -64,12 +102,12 @@ def classify_symptom(state: dict) -> dict:
 # Step 3: Prepare display details
 def detail_node(state: dict) -> dict:
     category = state["category"]
+    # The redirect_key is used for CSS classes and for looking up in redirect_map
     redirect_key = category.lower().replace(" ", "")
-    display_name = category.replace("_", " ").title()
+    # The display_name is what's shown to the user, preserving spaces if they were in AI output
+    display_name = category.replace("_", " ").title() # Use original category for display
     symptom = state["symptom"]
-
     state["answer"] = f"{symptom} → <span class='final-res-{redirect_key}'>{display_name}</span>"
-
     explain_prompt = (
         f"Explain the likely medical relevance of the symptom: '{symptom}' in 4–5 lines, based on {category} context."
     )
@@ -98,32 +136,39 @@ def book():
     result = None
     details = None
     redirect_url = "#"
-    redirect_text = "Department"
+    department_name = "Recommended" # Changed from redirect_text to department_name for clarity
     user_info = {}
-
     if request.method == 'POST':
         user_info['name'] = request.form.get('name', '')
         user_info['age'] = request.form.get('age', '')
         user_info['email'] = request.form.get('email', '')
         user_info['phone'] = request.form.get('phone', '')
         user_symptom = request.form.get('symptom', '')
-
         final_state = graph.invoke({"symptom": user_symptom})
         result = f"Classification: {final_state.get('answer')}"
         details = final_state.get("details")
+        
+        # Get the category as classified by the AI, then normalize it for map lookup
+        ai_category = final_state.get("category", "General") # Default to "General" if not found
+        normalized_ai_category = ai_category.lower().replace(" ", "")
 
-        category = final_state.get("category", "general").lower().replace(" ", "")
         # Get the department slug from the map, defaulting to 'generalmedicine'
-        department_slug = redirect_map.get(category, 'generalmedicine')
+        department_slug = redirect_map.get(normalized_ai_category, 'generalmedicine')
         redirect_url = f"/departments/{department_slug}"
-        redirect_text = category.replace("_", " ").title()
+        
+        # Pass the original AI category (title-cased) to the frontend for display and JS redirection
+        department_name = ai_category.title() # Use the AI's original category, title-cased
+        
+        # --- DEBUGGING START ---
+        print(f"Flask: AI Category: '{ai_category}', Normalized for map: '{normalized_ai_category}', Department Slug: '{department_slug}', Department Name for JS: '{department_name}'")
+        # --- DEBUGGING END ---
 
     return render_template('bookappt.html',
                            result=result,
                            details=details,
                            user_info=user_info,
                            redirect_url=redirect_url,
-                           redirect_text=redirect_text)
+                           department_name=department_name) # Pass department_name to template
 
 # Modified route to handle department pages
 @app.route('/departments/<department_slug>')
@@ -137,21 +182,19 @@ def department_page(department_slug):
         print(f"Error rendering department template '{department_slug}.html': {e}. Falling back to general medicine.")
         return render_template("departments/generalmedicine.html")
 
-# New API endpoint for General Medicine AI chat
-@app.route('/api/chat/general-medicine', methods=['POST'])
-def general_medicine_chat():
+# Dynamic API endpoint for AI chat for all departments
+@app.route('/api/chat/<department_slug>', methods=['POST'])
+def department_chat(department_slug):
     data = request.get_json()
     user_message = data.get('message')
-
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
 
-    # System prompt to guide the AI's persona and knowledge
-    system_prompt = (
-        "You are a helpful and knowledgeable AI assistant specializing in general medicine. "
-        "Provide concise and accurate information related to common symptoms, general health advice, "
-        "and typical treatments. Do not diagnose or prescribe medication. Always advise consulting "
-        "a qualified medical professional for personalized advice. Keep your responses brief and to the point."
+    # Get the appropriate system prompt based on the department_slug
+    # Default to general-medicine prompt if not found
+    system_prompt = DEPARTMENT_AI_PROMPTS.get(
+        department_slug,
+        DEPARTMENT_AI_PROMPTS["general-medicine"]
     )
 
     try:
@@ -163,7 +206,7 @@ def general_medicine_chat():
         ai_response = response.content.strip()
         return jsonify({"response": ai_response})
     except Exception as e:
-        print(f"Error invoking LLM: {e}")
+        print(f"Error invoking LLM for {department_slug}: {e}")
         return jsonify({"error": "Failed to get AI response"}), 500
 
 # Run the server

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Department - ApexCare Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/dental.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="hero-header">
+    <div class="header-content">
+      <a href="/bookappt.html" class="back-button" aria-label="Back to Book Appointment">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Dental Department</h1>
+      <p>Bright smiles, healthy lives.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="symptoms-section card">
+      <h2><i class="fas fa-tooth icon"></i> Common Conditions & Services</h2>
+      <ul>
+        <li><i class="fas fa-check-circle list-icon"></i> Toothache & Dental Pain</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Gum Bleeding & Gingivitis</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Cavities & Fillings</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Bad Breath (Halitosis)</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Wisdom Tooth Pain & Extraction</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Routine Dental Check-ups & Cleaning</li>
+        <li><i class="fas fa-check-circle list-icon"></i> Orthodontic Consultations</li>
+      </ul>
+    </section>
+
+    <section class="doctors-section">
+      <h2><i class="fas fa-user-md icon"></i> Our Experienced Dental Professionals</h2>
+      <div class="doctor-grid">
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Alex Turner" class="doctor-avatar">
+          <h3>Dr. Alex Turner</h3>
+          <p><strong>Qualification:</strong> DDS (General Dentistry)</p>
+          <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 5:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait1">2</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+        </div>
+
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Maya Singh" class="doctor-avatar">
+          <h3>Dr. Maya Singh</h3>
+          <p><strong>Qualification:</strong> DMD, MS (Orthodontics)</p>
+          <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 6:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait2">1</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
+        </div>
+
+        <div class="doctor-card card">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Chris Brown" class="doctor-avatar">
+          <h3>Dr. Chris Brown</h3>
+          <p><strong>Qualification:</strong> DDS, MD (Oral & Maxillofacial Surgery)</p>
+          <p><strong>Timings:</strong> Mon, Fri: 1:00 PM - 7:00 PM</p>
+          <p><strong>Current Waiting:</strong> <span id="wait3">0</span> patients</p>
+          <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-chat-section card">
+      <h2><i class="fas fa-robot icon"></i> Ask Our Dental AI Assistant</h2>
+      <div class="chat-container">
+        <div id="chat-messages" class="chat-messages">
+          <div class="message ai-message">Hello! I'm your Dental AI Assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
+          <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/departments/dental.js') }}"></script>
+</body>
+</html>

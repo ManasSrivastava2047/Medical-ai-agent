@@ -38,10 +38,22 @@ form.addEventListener("submit", () => {
 
 // Function to handle redirection to department pages
 function handleRedirect(department) {
+  // --- DEBUGGING START ---
+  console.log("handleRedirect called with original department:", department)
+  // --- DEBUGGING END ---
+
+  // IMPORTANT: Normalize the department name by trimming, lowercasing, AND removing all spaces.
+  // This ensures it matches the keys in the 'redirects' object, which are consistent with Python's slug format.
+  const normalizedDepartment = department.trim().toLowerCase().replace(/\s/g, "")
+
+  // --- DEBUGGING START ---
+  console.log("Normalized department for lookup:", normalizedDepartment)
+  // --- DEBUGGING END ---
+
   const redirects = {
     general: "/departments/generalmedicine",
     emergency: "/departments/emergency",
-    "mental health": "/departments/mental_health",
+    mentalhealth: "/departments/mental_health",
     cardiology: "/departments/cardiology",
     pulmonology: "/departments/pulmonology",
     gastroenterology: "/departments/gastroenterology",
@@ -57,13 +69,21 @@ function handleRedirect(department) {
     endocrinology: "/departments/endocrinology",
     oncology: "/departments/oncology",
     dental: "/departments/dental",
+    // Add other departments here as you create their files
   }
 
-  const target = redirects[department.trim().toLowerCase()]
+  const target = redirects[normalizedDepartment]
+
+  // --- DEBUGGING START ---
+  console.log("Redirects object:", redirects)
+  console.log("Target URL found:", target)
+  // --- DEBUGGING END ---
+
   if (target) {
     window.location.href = target
   } else {
+    // Fallback to general medicine if no specific match is found
     alert("Department not specifically matched. Redirecting to General Medicine.")
-    window.location.href = "/departments/generalmedicine" // Ensure this matches the generalmedicine.html path
+    window.location.href = "/departments/generalmedicine"
   }
 }
