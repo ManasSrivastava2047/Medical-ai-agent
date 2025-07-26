@@ -38,17 +38,14 @@ form.addEventListener("submit", () => {
 
 // Function to handle redirection to department pages
 function handleRedirect(department) {
-  // --- DEBUGGING START ---
-  console.log("handleRedirect called with original department:", department)
-  // --- DEBUGGING END ---
+  // 🔍 Debug: Show the raw value passed from Flask/template
+  console.log("handleRedirect called with original department:", department);
 
-  // IMPORTANT: Normalize the department name by trimming, lowercasing, AND removing all spaces.
-  // This ensures it matches the keys in the 'redirects' object, which are consistent with Python's slug format.
-  const normalizedDepartment = department.trim().toLowerCase().replace(/\s/g, "")
+  // Normalize department to match keys in redirects object
+  const normalizedDepartment = department.trim().toLowerCase().replace(/\s/g, "");
 
-  // --- DEBUGGING START ---
-  console.log("Normalized department for lookup:", normalizedDepartment)
-  // --- DEBUGGING END ---
+  // 🔍 Debug: Show normalized value
+  console.log("Normalized department for lookup:", normalizedDepartment);
 
   const redirects = {
     general: "/departments/generalmedicine",
@@ -68,22 +65,18 @@ function handleRedirect(department) {
     urology: "/departments/urology",
     endocrinology: "/departments/endocrinology",
     oncology: "/departments/oncology",
-    dental: "/departments/dental",
-    // Add other departments here as you create their files
-  }
+    dental: "/departments/dental"
+  };
 
-  const target = redirects[normalizedDepartment]
+  const target = redirects[normalizedDepartment];
 
-  // --- DEBUGGING START ---
-  console.log("Redirects object:", redirects)
-  console.log("Target URL found:", target)
-  // --- DEBUGGING END ---
+  // 🔍 Debug: Final URL being used
+  console.log("Target URL found:", target);
 
   if (target) {
-    window.location.href = target
+    window.location.href = target;
   } else {
-    // Fallback to general medicine if no specific match is found
-    alert("Department not specifically matched. Redirecting to General Medicine.")
-    window.location.href = "/departments/generalmedicine"
+    alert("Department not specifically matched. Redirecting to General Medicine.");
+    window.location.href = "/departments/generalmedicine";
   }
 }

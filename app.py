@@ -155,9 +155,7 @@ def book():
         # Get the department slug from the map, defaulting to 'generalmedicine'
         department_slug = redirect_map.get(normalized_ai_category, 'generalmedicine')
         redirect_url = f"/departments/{department_slug}"
-        
-        # Pass the original AI category (title-cased) to the frontend for display and JS redirection
-        department_name = ai_category.title() # Use the AI's original category, title-cased
+        department_name = normalized_ai_category
         
         # --- DEBUGGING START ---
         print(f"Flask: AI Category: '{ai_category}', Normalized for map: '{normalized_ai_category}', Department Slug: '{department_slug}', Department Name for JS: '{department_name}'")
