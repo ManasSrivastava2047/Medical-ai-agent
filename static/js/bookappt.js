@@ -48,7 +48,10 @@ function handleRedirect(department) {
     psychiatry: "/departments/mental_health",
     cardiology: "/departments/cardiology",
     orthopedics: "/departments/orthopedics",
-    neurology: "/departments/neurology"
+    neurology: "/departments/neurology",
+    dental:"/departments/dental",
+    "dental":"/departments/dental"
+
     // Add other departments as needed
   };
 

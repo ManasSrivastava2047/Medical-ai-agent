@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+
 api_key = os.getenv("GOOGLE_API_KEY")
 if not api_key:
     raise ValueError("GOOGLE_API_KEY is not set in the environment file.")
@@ -25,8 +26,10 @@ llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature
 # and values are the base names of the HTML templates.
 redirect_map = {
     "general": "generalmedicine", # Maps to generalmedicine.html
+    "generalmedicine": "generalmedicine", # Ensure consistency
     "emergency": "emergency",
     "mentalhealth": "mental_health", # AI outputs "Mental health", becomes "mentalhealth" for key
+    "psychiatry": "mental_health", # AI outputs "Psychiatry", maps to mental_health.html
     "cardiology": "cardiology",
     "pulmonology": "pulmonology",
     "gastroenterology": "gastroenterology",
@@ -37,11 +40,10 @@ redirect_map = {
     "dermatology": "dermatology",
     "ent": "ent",
     "ophthalmology": "ophthalmology",
-    "psychiatry": "psychiatry",
     "urology": "urology",
     "endocrinology": "endocrinology",
     "oncology": "oncology",
-    "dental": "dental",
+    "dental": "dental", # Maps to dental.html
 }
 
 # System prompts for each department's AI assistant
@@ -79,7 +81,6 @@ DEPARTMENT_AI_PROMPTS = {
     ),
     # Add prompts for other departments here following the same pattern
 }
-
 
 # Step 1: Retrieve symptom
 def get_symptom(state: dict) -> dict:
@@ -151,33 +152,32 @@ def book():
         # Get the category as classified by the AI, then normalize it for map lookup
         ai_category = final_state.get("category", "General") # Default to "General" if not found
         normalized_ai_category = ai_category.lower().replace(" ", "")
-
         # Get the department slug from the map, defaulting to 'generalmedicine'
         department_slug = redirect_map.get(normalized_ai_category, 'generalmedicine')
         redirect_url = f"/departments/{department_slug}"
-        department_name = normalized_ai_category
+        department_name = normalized_ai_category # This is the value passed to JS handleRedirect
         
         # --- DEBUGGING START ---
         print(f"Flask: AI Category: '{ai_category}', Normalized for map: '{normalized_ai_category}', Department Slug: '{department_slug}', Department Name for JS: '{department_name}'")
         # --- DEBUGGING END ---
-
     return render_template('bookappt.html',
-                           result=result,
-                           details=details,
-                           user_info=user_info,
-                           redirect_url=redirect_url,
-                           department_name=department_name) # Pass department_name to template
+                            result=result,
+                            details=details,
+                            user_info=user_info,
+                            redirect_url=redirect_url,
+                            department_name=department_name) # Pass department_name to template
 
 # Modified route to handle department pages
 @app.route('/departments/<department_slug>')
 def department_page(department_slug):
     try:
         # Attempt to render the specific department template by appending .html
+        print(f"Attempting to render: templates/departments/{department_slug}.html")
         return render_template(f"departments/{department_slug}.html")
     except Exception as e:
         # If the specific department template is not found,
         # fall back to the general medicine page, similar to the JS handleRedirect's else block.
-        print(f"Error rendering department template '{department_slug}.html': {e}. Falling back to general medicine.")
+        print(f"Error rendering department template 'departments/{department_slug}.html': {e}. Falling back to general medicine.")
         return render_template("departments/generalmedicine.html")
 
 # Dynamic API endpoint for AI chat for all departments
@@ -187,14 +187,12 @@ def department_chat(department_slug):
     user_message = data.get('message')
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
-
     # Get the appropriate system prompt based on the department_slug
     # Default to general-medicine prompt if not found
     system_prompt = DEPARTMENT_AI_PROMPTS.get(
         department_slug,
         DEPARTMENT_AI_PROMPTS["general-medicine"]
     )
-
     try:
         # Invoke the LLM with the system message and user's message
         response = llm.invoke([

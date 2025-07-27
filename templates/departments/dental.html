@@ -11,69 +11,393 @@
 <body>
   <header class="hero-header">
     <div class="header-content">
-      <a href="bookappt.html" class="back-button" aria-label="Back to Book Appointment">
+      <a href="/book" class="back-button" aria-label="Back to Book Appointment">
         <i class="fas fa-arrow-left"></i>
       </a>
-      <h1>Dental Department</h1>
-      <p>Bright smiles, healthy lives.</p>
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon" id="dark-mode-icon"></i>
+      </button>
+      <h1 class="hero-title">Dental Department</h1>
+      <p>Bright smiles, healthy lives - Advanced dental care you can trust.</p>
+      
+      <!-- Enhanced header features -->
+      <div class="header-features">
+        <div class="feature-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>State-of-the-art Equipment</span>
+        </div>
+        <div class="feature-badge">
+          <i class="fas fa-heart"></i>
+          <span>Gentle Care Approach</span>
+        </div>
+        <div class="feature-badge">
+          <i class="fas fa-bolt"></i>
+          <span>Same-day Appointments</span>
+        </div>
+      </div>
     </div>
   </header>
 
   <main class="container">
+    <!-- Emergency Alert Banner -->
+    <div id="emergency-banner" class="emergency-banner" style="display: none;">
+      <div class="emergency-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Dental Emergency? Call our 24/7 hotline: <strong>(555) 123-4567</strong></span>
+        <button class="close-banner" onclick="closeEmergencyBanner()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Enhanced Services Section -->
     <section class="symptoms-section card">
-      <h2><i class="fas fa-tooth icon"></i> Common Conditions & Services</h2>
-      <ul>
-        <li><i class="fas fa-check-circle list-icon"></i> Toothache & Dental Pain</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Gum Bleeding & Gingivitis</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Cavities & Fillings</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Bad Breath (Halitosis)</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Wisdom Tooth Pain & Extraction</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Routine Dental Check-ups & Cleaning</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Orthodontic Consultations</li>
+      <h2><i class="fas fa-tooth icon"></i> Our Dental Services & Common Conditions</h2>
+      
+      <!-- Service Filter -->
+      <div class="service-filter">
+        <button class="filter-btn active" onclick="filterServices('all')">All Services</button>
+        <button class="filter-btn" onclick="filterServices('emergency')">Emergency</button>
+        <button class="filter-btn" onclick="filterServices('routine')">Routine</button>
+        <button class="filter-btn" onclick="filterServices('cosmetic')">Cosmetic</button>
+      </div>
+
+      <ul class="services-grid">
+        <li class="service-item" data-category="emergency" data-urgency="high">
+          <i class="fas fa-exclamation-triangle list-icon emergency-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Toothache & Dental Pain</span>
+            <span class="urgency-badge high">High Priority</span>
+            <p class="service-description">Immediate relief for severe dental pain and discomfort</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="routine" data-urgency="medium">
+          <i class="fas fa-tint list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Gum Bleeding & Gingivitis</span>
+            <span class="urgency-badge medium">Medium Priority</span>
+            <p class="service-description">Treatment for gum diseases and periodontal care</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="routine" data-urgency="medium">
+          <i class="fas fa-tooth list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Cavities & Fillings</span>
+            <span class="urgency-badge medium">Medium Priority</span>
+            <p class="service-description">Professional cavity treatment and dental restorations</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="routine" data-urgency="low">
+          <i class="fas fa-wind list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Bad Breath (Halitosis)</span>
+            <span class="urgency-badge low">Low Priority</span>
+            <p class="service-description">Solutions for persistent bad breath and oral hygiene</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="emergency" data-urgency="high">
+          <i class="fas fa-tools list-icon emergency-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Wisdom Tooth Pain & Extraction</span>
+            <span class="urgency-badge high">High Priority</span>
+            <p class="service-description">Safe wisdom tooth removal and pain management</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="routine" data-urgency="low">
+          <i class="fas fa-sparkles list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Routine Dental Check-ups & Cleaning</span>
+            <span class="urgency-badge low">Low Priority</span>
+            <p class="service-description">Preventive care and professional dental cleaning</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="cosmetic" data-urgency="low">
+          <i class="fas fa-ruler list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Orthodontic Consultations</span>
+            <span class="urgency-badge low">Low Priority</span>
+            <p class="service-description">Braces, aligners, and teeth straightening solutions</p>
+          </div>
+        </li>
+        
+        <li class="service-item" data-category="cosmetic" data-urgency="medium">
+          <i class="fas fa-gem list-icon"></i>
+          <div class="service-content">
+            <span class="service-name">Dental Implants & Crowns</span>
+            <span class="urgency-badge medium">Medium Priority</span>
+            <p class="service-description">Permanent tooth replacement and restoration</p>
+          </div>
+        </li>
       </ul>
     </section>
 
-    <section class="doctors-section">
-      <h2><i class="fas fa-user-md icon"></i> Our Experienced Dental Professionals</h2>
-      <div class="doctor-grid">
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Alex Turner" class="doctor-avatar">
-          <h3>Dr. Alex Turner</h3>
-          <p><strong>Qualification:</strong> DDS (General Dentistry)</p>
-          <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 5:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait1">2</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+    <!-- Dental Tools & Features Section -->
+    <section class="dental-tools-section card">
+      <h2><i class="fas fa-tools icon"></i> Dental Health Tools</h2>
+      
+      <!-- Pain Assessment Tool -->
+      <div class="dental-tool">
+        <h3><i class="fas fa-thermometer-half"></i> Pain Level Assessment</h3>
+        <p>Rate your current dental pain level:</p>
+        <div class="pain-scale">
+          <div class="pain-levels">
+            <button class="pain-btn" data-level="0" onclick="selectPainLevel(0)">0<br><small>No Pain</small></button>
+            <button class="pain-btn" data-level="2" onclick="selectPainLevel(2)">2<br><small>Mild</small></button>
+            <button class="pain-btn" data-level="4" onclick="selectPainLevel(4)">4<br><small>Moderate</small></button>
+            <button class="pain-btn" data-level="6" onclick="selectPainLevel(6)">6<br><small>Severe</small></button>
+            <button class="pain-btn" data-level="8" onclick="selectPainLevel(8)">8<br><small>Very Severe</small></button>
+            <button class="pain-btn" data-level="10" onclick="selectPainLevel(10)">10<br><small>Worst Pain</small></button>
+          </div>
+          <div id="pain-result" class="pain-result"></div>
         </div>
+      </div>
 
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Maya Singh" class="doctor-avatar">
-          <h3>Dr. Maya Singh</h3>
-          <p><strong>Qualification:</strong> DMD, MS (Orthodontics)</p>
-          <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 6:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait2">1</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
+      <!-- Oral Hygiene Tracker -->
+      <div class="dental-tool">
+        <h3><i class="fas fa-calendar-check"></i> Daily Oral Care Tracker</h3>
+        <div class="hygiene-tracker">
+          <div class="hygiene-item">
+            <label>
+              <input type="checkbox" id="brushed-morning" onchange="updateHygieneTracker()">
+              <span class="checkmark"></span>
+              Brushed teeth (Morning)
+            </label>
+          </div>
+          <div class="hygiene-item">
+            <label>
+              <input type="checkbox" id="brushed-evening" onchange="updateHygieneTracker()">
+              <span class="checkmark"></span>
+              Brushed teeth (Evening)
+            </label>
+          </div>
+          <div class="hygiene-item">
+            <label>
+              <input type="checkbox" id="flossed" onchange="updateHygieneTracker()">
+              <span class="checkmark"></span>
+              Flossed
+            </label>
+          </div>
+          <div class="hygiene-item">
+            <label>
+              <input type="checkbox" id="mouthwash" onchange="updateHygieneTracker()">
+              <span class="checkmark"></span>
+              Used mouthwash
+            </label>
+          </div>
+          <div id="hygiene-score" class="hygiene-score"></div>
         </div>
+      </div>
 
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Chris Brown" class="doctor-avatar">
-          <h3>Dr. Chris Brown</h3>
-          <p><strong>Qualification:</strong> DDS, MD (Oral & Maxillofacial Surgery)</p>
-          <p><strong>Timings:</strong> Mon, Fri: 1:00 PM - 7:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait3">0</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+      <!-- Appointment Reminder -->
+      <div class="dental-tool">
+        <h3><i class="fas fa-bell"></i> Appointment Reminder</h3>
+        <div class="reminder-tool">
+          <input type="datetime-local" id="appointment-time" class="reminder-input">
+          <button onclick="setReminder()" class="reminder-btn">
+            <i class="fas fa-plus"></i> Set Reminder
+          </button>
+          <div id="active-reminders" class="active-reminders"></div>
         </div>
       </div>
     </section>
 
+    <!-- Enhanced Doctors Section -->
+    <section class="doctors-section">
+      <h2><i class="fas fa-user-md icon"></i> Our Experienced Dental Professionals</h2>
+      <div class="doctor-grid">
+        <div class="doctor-card card">
+          <div class="doctor-status available"></div>
+          <img src="/placeholder.svg?height=80&width=80&text=AT" alt="Dr. Alex Turner" class="doctor-avatar">
+          <h3>Dr. Alex Turner</h3>
+          <div class="doctor-rating">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <span class="rating-text">4.8 (127 reviews)</span>
+          </div>
+          <p><strong>Qualification:</strong> DDS (General Dentistry)</p>
+          <p><strong>Specialization:</strong> General Dentistry & Cosmetic Procedures</p>
+          <p><strong>Experience:</strong> 12 years</p>
+          <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 5:00 PM</p>
+          <div class="wait-info">
+            <p><strong>Current Waiting:</strong> <span id="wait1" class="wait-count">2</span> patients</p>
+            <p class="wait-time">Est. wait time: <span id="time1">30</span> minutes</p>
+          </div>
+          <div id="timer-display-1" class="timer-display" style="display: none;">
+            <i class="fas fa-clock"></i>
+            <span>Please wait: <span id="timer-1">30</span>s</span>
+          </div>
+          <button class="wait-btn" onclick="addToQueue('wait1', 'time1', 'Dr. Alex Turner')">
+            <i class="fas fa-plus"></i> Join Queue
+          </button>
+        </div>
+
+        <div class="doctor-card card">
+          <div class="doctor-status available"></div>
+          <img src="/placeholder.svg?height=80&width=80&text=MS" alt="Dr. Maya Singh" class="doctor-avatar">
+          <h3>Dr. Maya Singh</h3>
+          <div class="doctor-rating">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <span class="rating-text">4.9 (89 reviews)</span>
+          </div>
+          <p><strong>Qualification:</strong> DMD, MS (Orthodontics)</p>
+          <p><strong>Specialization:</strong> Orthodontics & Braces</p>
+          <p><strong>Experience:</strong> 8 years</p>
+          <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 6:00 PM</p>
+          <div class="wait-info">
+            <p><strong>Current Waiting:</strong> <span id="wait2" class="wait-count">1</span> patients</p>
+            <p class="wait-time">Est. wait time: <span id="time2">15</span> minutes</p>
+          </div>
+          <div id="timer-display-2" class="timer-display" style="display: none;">
+            <i class="fas fa-clock"></i>
+            <span>Please wait: <span id="timer-2">30</span>s</span>
+          </div>
+          <button class="wait-btn" onclick="addToQueue('wait2', 'time2', 'Dr. Maya Singh')">
+            <i class="fas fa-plus"></i> Join Queue
+          </button>
+        </div>
+
+        <div class="doctor-card card">
+          <div class="doctor-status busy"></div>
+          <img src="/placeholder.svg?height=80&width=80&text=CB" alt="Dr. Chris Brown" class="doctor-avatar">
+          <h3>Dr. Chris Brown</h3>
+          <div class="doctor-rating">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <span class="rating-text">4.7 (156 reviews)</span>
+          </div>
+          <p><strong>Qualification:</strong> DDS, MD (Oral & Maxillofacial Surgery)</p>
+          <p><strong>Specialization:</strong> Oral Surgery & Implants</p>
+          <p><strong>Experience:</strong> 15 years</p>
+          <p><strong>Timings:</strong> Mon, Fri: 1:00 PM - 7:00 PM</p>
+          <div class="wait-info">
+            <p><strong>Current Waiting:</strong> <span id="wait3" class="wait-count">0</span> patients</p>
+            <p class="wait-time">Est. wait time: <span id="time3">0</span> minutes</p>
+          </div>
+          <div id="timer-display-3" class="timer-display" style="display: none;">
+            <i class="fas fa-clock"></i>
+            <span>Please wait: <span id="timer-3">30</span>s</span>
+          </div>
+          <button class="wait-btn" onclick="addToQueue('wait3', 'time3', 'Dr. Chris Brown')" disabled>
+            <i class="fas fa-clock"></i> Currently Unavailable
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced AI Chat Section -->
     <section class="ai-chat-section card">
-      <h2><i class="fas fa-robot icon"></i> Ask Our Dental AI Assistant</h2>
+      <h2><i class="fas fa-robot icon"></i> Dental FAQ Assistant</h2>
+      <p class="chat-disclaimer">Ask questions about dental care, symptoms, and general information. For appointments, please use the queue system above.</p>
+      <div class="chat-features">
+        <div class="feature-chip">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Appointment Booking</span>
+        </div>
+        <div class="feature-chip">
+          <i class="fas fa-stethoscope"></i>
+          <span>Symptom Analysis</span>
+        </div>
+        <div class="feature-chip">
+          <i class="fas fa-info-circle"></i>
+          <span>Treatment Info</span>
+        </div>
+      </div>
+      
       <div class="chat-container">
         <div id="chat-messages" class="chat-messages">
-          <div class="message ai-message">Hello! I'm your Dental AI Assistant. How can I help you today?</div>
+          <div class="message ai-message">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <p>Hello! I'm your Dental AI Assistant. I can help you with dental concerns, appointment scheduling, and provide oral health tips. How can I assist you today?</p>
+              <span class="message-time" id="initial-time"></span>
+            </div>
+          </div>
         </div>
+        
+        <!-- Quick Action Buttons -->
+        <div class="quick-actions">
+          <button class="quick-btn" onclick="sendQuickMessage('I have tooth pain')">
+            <i class="fas fa-exclamation-triangle"></i>
+            Tooth Pain
+          </button>
+          <button class="quick-btn" onclick="sendQuickMessage('Tell me about dental cleaning')">
+            <i class="fas fa-sparkles"></i>
+            Dental Cleaning
+          </button>
+          <button class="quick-btn" onclick="sendQuickMessage('What are common causes of bad breath?')">
+            <i class="fas fa-wind"></i>
+            Bad Breath
+          </button>
+        </div>
+        
         <div class="chat-input-area">
           <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
-          <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+          <button id="send-button" aria-label="Send message">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Information Section -->
+    <section class="contact-section card">
+      <h2><i class="fas fa-phone icon"></i> Contact Information</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <div class="contact-info">
+            <h3>Emergency Line</h3>
+            <p>(555) 123-4567</p>
+            <span>Available 24/7</span>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="contact-info">
+            <h3>Appointments</h3>
+            <p>(555) 123-4568</p>
+            <span>Mon-Fri: 8 AM - 6 PM</span>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-info">
+            <h3>Location</h3>
+            <p>ApexCare Hospital</p>
+            <span>3rd Floor, Dental Wing</span>
+          </div>
         </div>
       </div>
     </section>
@@ -85,6 +409,7 @@
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
       <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
       <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
     </div>
   </footer>
 
