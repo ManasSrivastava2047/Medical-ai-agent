@@ -40,11 +40,11 @@ function updateTriageLevel() {
     triageLevel.className = "triage-level critical"
     triageAction.innerHTML = `
       <strong>IMMEDIATE ATTENTION REQUIRED</strong><br>
-      Please proceed directly to the Emergency Department or call 911 immediately. 
+      Please proceed directly to the Emergency Department or call 112 immediately. 
       Your symptoms indicate a potentially life-threatening condition that requires immediate medical intervention.
     `
-    registerBtn.textContent = "Call 911 Now"
-    registerBtn.onclick = () => window.open("tel:911")
+    registerBtn.textContent = "Call 112 Now"
+    registerBtn.onclick = () => window.open("tel:112")
     registerBtn.style.backgroundColor = "var(--color-critical)"
   } else if (urgentCount > 0) {
     triageLevel.textContent = "URGENT - Level 2"
@@ -247,7 +247,7 @@ function initializeAIChat() {
       chatMessages.removeChild(typingIndicator)
       addMessage(
         "ai",
-        "I apologize, but I'm currently unable to respond. In a medical emergency, please call 911 immediately or visit our Emergency Department directly.",
+        "I apologize, but I'm currently unable to respond. In a medical emergency, please call 112 immediately or visit our Emergency Department directly.",
       )
     }
   }
@@ -269,9 +269,72 @@ function formatTime(seconds) {
 
 // Emergency contact functions
 function callEmergency() {
-  window.open("tel:911")
+  window.open("tel:112")
 }
 
 function callHospital() {
   window.open("tel:5551234567") // Replace with actual hospital number
+}
+
+// Ring Department Function (updated for new layout)
+function ringDepartment() {
+  const phoneNumber = "5551234567" // Replace with actual emergency department number
+
+  // Show confirmation dialog
+  const confirmed = confirm(
+    "You are about to call the Emergency Department directly.\n\n" +
+      "Phone: (555) 123-EMRG\n\n" +
+      "• For life-threatening emergencies, use the 112 button\n" +
+      "• For general inquiries, wait times, or directions\n\n" +
+      "Do you want to proceed with the call?",
+  )
+
+  if (confirmed) {
+    // Add visual feedback to the department button
+    const deptBtn = document.querySelector(".emergency-call-btn.department")
+    const originalContent = deptBtn.innerHTML
+
+    deptBtn.innerHTML = `
+      <i class="fas fa-phone-alt fa-shake"></i>
+      <div class="btn-content">
+        <span class="btn-title">Calling...</span>
+        <span class="btn-subtitle">Connecting...</span>
+      </div>
+    `
+
+    // Disable button temporarily
+    deptBtn.disabled = true
+    deptBtn.style.opacity = "0.8"
+
+    // Initiate the call
+    window.open(`tel:${phoneNumber}`)
+
+    // Reset button after 3 seconds
+    setTimeout(() => {
+      deptBtn.innerHTML = originalContent
+      deptBtn.disabled = false
+      deptBtn.style.opacity = "1"
+    }, 3000)
+  }
+}
+
+// Alternative function for mobile devices with better UX
+function ringDepartmentMobile() {
+  const phoneNumber = "5551234567"
+
+  // For mobile devices, show a more mobile-friendly confirmation
+  if (confirm("Call Emergency Department?\n(555) 123-EMRG")) {
+    window.location.href = `tel:${phoneNumber}`
+  }
+}
+
+// Detect if user is on mobile and use appropriate function
+function detectMobileAndRing() {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
+  if (isMobile) {
+    ringDepartmentMobile()
+  } else {
+    ringDepartment()
+  }
 }
