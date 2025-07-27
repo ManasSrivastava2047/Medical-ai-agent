@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Emergency Department - ApexCare Hospital</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/emergency.css') }}">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/emergency.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -15,65 +15,269 @@
         <i class="fas fa-arrow-left"></i>
       </a>
       <h1>Emergency Department</h1>
-      <p>Rapid, life-saving care when every second counts.</p>
+      <p>24/7 Critical Care - Every Second Counts</p>
+      <div class="emergency-status">
+        <div class="status-indicator active">
+          <i class="fas fa-heartbeat"></i>
+          <span>ACTIVE</span>
+        </div>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="symptoms-section card">
-      <h2><i class="fas fa-exclamation-triangle icon"></i> Common Conditions & Services</h2>
-      <ul>
-        <li><i class="fas fa-check-circle list-icon"></i> Severe Injuries & Trauma</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Acute Chest Pain & Heart Attack Symptoms</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Stroke Symptoms (FAST)</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Severe Difficulty Breathing & Asthma Attacks</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Uncontrolled Bleeding</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Loss of Consciousness & Seizures</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Severe Allergic Reactions</li>
-      </ul>
+    <!-- Emergency Alert Banner -->
+    <section class="emergency-alert">
+      <div class="alert-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <h3>Life-Threatening Emergency?</h3>
+          <p>Call 112 immediately or come directly to our Emergency Department</p>
+        </div>
+        <button class="emergency-call-btn" onclick="window.open('tel:112')">
+          <i class="fas fa-phone"></i> Call 112
+        </button>
+      </div>
     </section>
 
-    <section class="doctors-section">
-      <h2><i class="fas fa-user-md icon"></i> Our Experienced Emergency Physicians</h2>
-      <div class="doctor-grid">
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Elena Rodriguez" class="doctor-avatar">
-          <h3>Dr. Elena Rodriguez</h3>
-          <p><strong>Qualification:</strong> MD (Emergency Medicine)</p>
-          <p><strong>Timings:</strong> 24/7 On-Call</p>
-          <p><strong>Current Waiting:</strong> <span id="wait1">8</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
+    <!-- Triage System -->
+    <section class="triage-section card">
+      <h2><i class="fas fa-clipboard-list icon"></i> Emergency Triage Assessment</h2>
+      <p>Quick assessment to determine urgency level and appropriate care pathway</p>
+      
+      <div class="triage-form">
+        <div class="triage-question">
+          <label>Are you experiencing any of these critical symptoms?</label>
+          <div class="symptom-checkboxes">
+            <label class="checkbox-item critical">
+              <input type="checkbox" value="chest-pain" onchange="updateTriageLevel()">
+              <span>Severe chest pain</span>
+            </label>
+            <label class="checkbox-item critical">
+              <input type="checkbox" value="breathing" onchange="updateTriageLevel()">
+              <span>Difficulty breathing</span>
+            </label>
+            <label class="checkbox-item critical">
+              <input type="checkbox" value="consciousness" onchange="updateTriageLevel()">
+              <span>Loss of consciousness</span>
+            </label>
+            <label class="checkbox-item urgent">
+              <input type="checkbox" value="bleeding" onchange="updateTriageLevel()">
+              <span>Severe bleeding</span>
+            </label>
+            <label class="checkbox-item urgent">
+              <input type="checkbox" value="pain" onchange="updateTriageLevel()">
+              <span>Severe pain (8-10/10)</span>
+            </label>
+            <label class="checkbox-item standard">
+              <input type="checkbox" value="fever" onchange="updateTriageLevel()">
+              <span>High fever</span>
+            </label>
+          </div>
         </div>
-
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Mark Chen" class="doctor-avatar">
-          <h3>Dr. Mark Chen</h3>
-          <p><strong>Qualification:</strong> MD (Trauma Surgery)</p>
-          <p><strong>Timings:</strong> 24/7 On-Call</p>
-          <p><strong>Current Waiting:</strong> <span id="wait2">6</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
-        </div>
-
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Sarah Lee" class="doctor-avatar">
-          <h3>Dr. Sarah Lee</h3>
-          <p><strong>Qualification:</strong> MD (Critical Care Medicine)</p>
-          <p><strong>Timings:</strong> 24/7 On-Call</p>
-          <p><strong>Current Waiting:</strong> <span id="wait3">7</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+        
+        <div class="triage-result" id="triageResult" style="display: none;">
+          <div class="triage-level" id="triageLevel"></div>
+          <div class="triage-action" id="triageAction"></div>
+          <button class="register-btn" id="registerBtn" onclick="registerForTriage()">
+            Register for Emergency Care
+          </button>
         </div>
       </div>
     </section>
 
+    <!-- Real-time Department Status -->
+    <section class="department-status card">
+      <h2><i class="fas fa-hospital icon"></i> Real-Time Department Status</h2>
+      
+      <div class="status-grid">
+        <div class="status-item">
+          <div class="status-header">
+            <i class="fas fa-bed"></i>
+            <h3>Available Beds</h3>
+          </div>
+          <div class="status-value">
+            <span class="number" id="availableBeds">12</span>
+            <span class="total">/ 24</span>
+          </div>
+          <div class="status-indicator good">Good Availability</div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-header">
+            <i class="fas fa-ambulance"></i>
+            <h3>Ambulances En Route</h3>
+          </div>
+          <div class="status-value">
+            <span class="number" id="ambulancesEnRoute">3</span>
+          </div>
+          <div class="status-indicator warning">Incoming Patients</div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-header">
+            <i class="fas fa-clock"></i>
+            <h3>Average Wait Time</h3>
+          </div>
+          <div class="status-value">
+            <span class="number" id="avgWaitTime">15</span>
+            <span class="unit">min</span>
+          </div>
+          <div class="status-indicator good">Below Target</div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-header">
+            <i class="fas fa-user-md"></i>
+            <h3>Active Medical Staff</h3>
+          </div>
+          <div class="status-value">
+            <span class="number" id="activeStaff">18</span>
+          </div>
+          <div class="status-indicator excellent">Fully Staffed</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Services -->
+    <section class="services-section card">
+      <h2><i class="fas fa-medical-kit icon"></i> Emergency Services Available</h2>
+      
+      <div class="services-grid">
+        <div class="service-item">
+          <div class="service-icon trauma">
+            <i class="fas fa-user-injured"></i>
+          </div>
+          <h3>Trauma Center</h3>
+          <p>Level 1 trauma care for severe injuries</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon cardiac">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <h3>Cardiac Emergency</h3>
+          <p>Heart attack and cardiac arrest treatment</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon stroke">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Stroke Center</h3>
+          <p>Rapid stroke assessment and treatment</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon pediatric">
+            <i class="fas fa-child"></i>
+          </div>
+          <h3>Pediatric Emergency</h3>
+          <p>Specialized care for children</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon mental">
+            <i class="fas fa-head-side-virus"></i>
+          </div>
+          <h3>Mental Health Crisis</h3>
+          <p>Psychiatric emergency intervention</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon poison">
+            <i class="fas fa-flask"></i>
+          </div>
+          <h3>Poison Control</h3>
+          <p>Toxicology and poisoning treatment</p>
+          <div class="service-status active">
+            <i class="fas fa-circle"></i> Active
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Team -->
+    <section class="team-section card">
+      <h2><i class="fas fa-users-medical icon"></i> Emergency Medical Team</h2>
+      
+      <div class="team-grid">
+        <div class="team-member">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Elena Rodriguez" class="member-avatar">
+          <h3>Dr. Elena Rodriguez</h3>
+          <p class="role">Emergency Medicine Director</p>
+          <p class="specialty">Trauma & Critical Care</p>
+          <div class="availability on-duty">
+            <i class="fas fa-circle"></i> On Duty
+          </div>
+        </div>
+
+        <div class="team-member">
+          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Mark Chen" class="member-avatar">
+          <h3>Dr. Mark Chen</h3>
+          <p class="role">Trauma Surgeon</p>
+          <p class="specialty">Emergency Surgery</p>
+          <div class="availability on-duty">
+            <i class="fas fa-circle"></i> On Duty
+          </div>
+        </div>
+
+        <div class="team-member">
+          <img src="/placeholder.svg?height=80&width=80" alt="Sarah Johnson" class="member-avatar">
+          <h3>Sarah Johnson</h3>
+          <p class="role">Charge Nurse</p>
+          <p class="specialty">Emergency Nursing</p>
+          <div class="availability on-duty">
+            <i class="fas fa-circle"></i> On Duty
+          </div>
+        </div>
+
+        <div class="team-member">
+          <img src="/placeholder.svg?height=80&width=80" alt="Mike Thompson" class="member-avatar">
+          <h3>Mike Thompson</h3>
+          <p class="role">Paramedic Supervisor</p>
+          <p class="specialty">Pre-hospital Care</p>
+          <div class="availability on-duty">
+            <i class="fas fa-circle"></i> On Duty
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Emergency Assistant -->
     <section class="ai-chat-section card">
-      <h2><i class="fas fa-robot icon"></i> Ask Our Emergency AI Assistant</h2>
+      <h2><i class="fas fa-robot icon"></i> Emergency AI Assistant</h2>
+      <p class="ai-disclaimer">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>Important:</strong> This AI assistant is for information only. In a medical emergency, call 112 immediately.
+      </p>
+      
       <div class="chat-container">
         <div id="chat-messages" class="chat-messages">
-          <div class="message ai-message">Hello! I'm your Emergency AI Assistant. How can I help you today?</div>
+          <div class="message ai-message">
+            Hello! I'm your Emergency AI Assistant. I can help with general emergency information, but remember - if you're having a medical emergency, call 112 immediately. How can I assist you today?
+          </div>
         </div>
         <div class="chat-input-area">
-          <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
-          <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+          <input type="text" id="user-input" placeholder="Ask about emergency procedures, symptoms, or first aid..." aria-label="Type your question">
+          <button id="send-button" aria-label="Send message">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
         </div>
       </div>
     </section>
@@ -81,6 +285,16 @@
 
   <footer>
     <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
+    <div class="emergency-contacts">
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <span>Emergency: 112</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-hospital"></i>
+        <span>Direct Line: 99XXXXXX</span>
+      </div>
+    </div>
     <div class="social-links">
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
       <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>

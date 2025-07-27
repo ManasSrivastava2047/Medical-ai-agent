@@ -1,95 +1,233 @@
-// Merged content from general-medicine.js and general-medicine-chat.js
-// (This will be identical for all departments)
-function increment(id) {
-  const span = document.getElementById(id)
-  let count = Number.parseInt(span.innerText)
-  count++ // Increment the count
-  span.innerText = count // Update the displayed count
+// Emergency Department JavaScript
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize real-time updates
+  initializeRealTimeUpdates()
 
-  const waitTimeInSeconds = Math.floor(count * 7.5 * 60) // Calculate wait time based on new count
+  // Initialize AI chat
+  initializeAIChat()
 
-  const buttons = document.querySelectorAll(".wait-btn")
+  // Update status indicators periodically
+  setInterval(updateDepartmentStatus, 30000) // Update every 30 seconds
+})
 
-  buttons.forEach((btn) => {
-    btn.disabled = true
-    btn.style.cursor = "not-allowed"
+// Triage System
+function updateTriageLevel() {
+  const checkboxes = document.querySelectorAll('.symptom-checkboxes input[type="checkbox"]')
+  const triageResult = document.getElementById("triageResult")
+  const triageLevel = document.getElementById("triageLevel")
+  const triageAction = document.getElementById("triageAction")
+  const registerBtn = document.getElementById("registerBtn")
 
-    // Check if this is the button that was clicked
-    if (btn === event.target) {
-      btn.innerText = "Booked"
-      btn.style.backgroundColor = "var(--color-error)" // Use CSS variable for consistency
+  let criticalCount = 0
+  let urgentCount = 0
+  let standardCount = 0
 
-      // Add or update estimated wait time display
-      const parent = btn.parentElement
-      let waitInfo = parent.querySelector(".wait-time")
-      if (!waitInfo) {
-        waitInfo = document.createElement("p")
-        waitInfo.className = "wait-time"
-        parent.appendChild(waitInfo)
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      const parent = checkbox.closest(".checkbox-item")
+      if (parent.classList.contains("critical")) {
+        criticalCount++
+      } else if (parent.classList.contains("urgent")) {
+        urgentCount++
+      } else if (parent.classList.contains("standard")) {
+        standardCount++
       }
-      startCountdown(waitTimeInSeconds, waitInfo, btn)
-    } else {
-      btn.innerText = "Locked"
-      btn.style.backgroundColor = "var(--color-disabled)" // Use CSS variable
     }
   })
+
+  if (criticalCount > 0) {
+    triageLevel.textContent = "CRITICAL - Level 1"
+    triageLevel.className = "triage-level critical"
+    triageAction.innerHTML = `
+      <strong>IMMEDIATE ATTENTION REQUIRED</strong><br>
+      Please proceed directly to the Emergency Department or call 911 immediately. 
+      Your symptoms indicate a potentially life-threatening condition that requires immediate medical intervention.
+    `
+    registerBtn.textContent = "Call 911 Now"
+    registerBtn.onclick = () => window.open("tel:911")
+    registerBtn.style.backgroundColor = "var(--color-critical)"
+  } else if (urgentCount > 0) {
+    triageLevel.textContent = "URGENT - Level 2"
+    triageLevel.className = "triage-level urgent"
+    triageAction.innerHTML = `
+      <strong>URGENT CARE NEEDED</strong><br>
+      Your symptoms require prompt medical attention. Please register for emergency care. 
+      Expected wait time: 15-30 minutes.
+    `
+    registerBtn.textContent = "Register for Emergency Care"
+    registerBtn.onclick = registerForTriage
+    registerBtn.style.backgroundColor = "var(--color-urgent)"
+  } else if (standardCount > 0) {
+    triageLevel.textContent = "STANDARD - Level 3"
+    triageLevel.className = "triage-level standard"
+    triageAction.innerHTML = `
+      <strong>STANDARD CARE</strong><br>
+      Your symptoms can be addressed with standard emergency care. 
+      Expected wait time: 45-90 minutes.
+    `
+    registerBtn.textContent = "Register for Care"
+    registerBtn.onclick = registerForTriage
+    registerBtn.style.backgroundColor = "#9c27b0"
+  }
+
+  if (criticalCount > 0 || urgentCount > 0 || standardCount > 0) {
+    triageResult.style.display = "block"
+  } else {
+    triageResult.style.display = "none"
+  }
 }
 
-function startCountdown(seconds, displayElement, buttonElement) {
-  const timer = setInterval(() => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
+function registerForTriage() {
+  const triageLevel = document.getElementById("triageLevel").textContent
+  const registerBtn = document.getElementById("registerBtn")
 
-    displayElement.innerText = `Estimated Wait Time: ${mins} min ${secs < 10 ? "0" + secs : secs} sec`
+  // Simulate registration process
+  registerBtn.disabled = true
+  registerBtn.textContent = "Registering..."
 
-    if (seconds <= 0) {
-      clearInterval(timer)
-      displayElement.innerText = "Your turn is approaching!" // More encouraging message
-      buttonElement.innerText = "Check for your turn"
-      buttonElement.style.backgroundColor = "var(--color-success)" // Use CSS variable
-      buttonElement.disabled = false // Re-enable button for checking
-      buttonElement.style.cursor = "pointer"
-    }
+  setTimeout(() => {
+    registerBtn.textContent = "Registration Complete"
+    registerBtn.style.backgroundColor = "var(--color-success)"
 
-    seconds--
-  }, 1000)
+    // Show confirmation message
+    const confirmationMsg = document.createElement("div")
+    confirmationMsg.className = "registration-confirmation"
+    confirmationMsg.innerHTML = `
+      <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+        <i class="fas fa-check-circle"></i>
+        <strong>Registration Successful!</strong><br>
+        Triage Level: ${triageLevel}<br>
+        Registration ID: ER-${Date.now().toString().slice(-6)}<br>
+        Please proceed to the Emergency Department reception.
+      </div>
+    `
+
+    document.getElementById("triageResult").appendChild(confirmationMsg)
+  }, 2000)
 }
 
-// --- AI Chat Functionality ---
-document.addEventListener("DOMContentLoaded", () => {
+// Real-time Department Status Updates
+function initializeRealTimeUpdates() {
+  updateDepartmentStatus()
+}
+
+function updateDepartmentStatus() {
+  // Simulate real-time data updates
+  const availableBeds = document.getElementById("availableBeds")
+  const ambulancesEnRoute = document.getElementById("ambulancesEnRoute")
+  const avgWaitTime = document.getElementById("avgWaitTime")
+  const activeStaff = document.getElementById("activeStaff")
+
+  // Simulate realistic fluctuations
+  const currentBeds = Number.parseInt(availableBeds.textContent)
+  const newBeds = Math.max(8, Math.min(20, currentBeds + (Math.random() > 0.5 ? 1 : -1)))
+  availableBeds.textContent = newBeds
+
+  const currentAmbulances = Number.parseInt(ambulancesEnRoute.textContent)
+  const newAmbulances = Math.max(0, Math.min(8, currentAmbulances + (Math.random() > 0.6 ? 1 : -1)))
+  ambulancesEnRoute.textContent = newAmbulances
+
+  const currentWait = Number.parseInt(avgWaitTime.textContent)
+  const newWait = Math.max(5, Math.min(45, currentWait + (Math.random() > 0.5 ? 2 : -2)))
+  avgWaitTime.textContent = newWait
+
+  const currentStaff = Number.parseInt(activeStaff.textContent)
+  const newStaff = Math.max(15, Math.min(22, currentStaff + (Math.random() > 0.8 ? 1 : 0)))
+  activeStaff.textContent = newStaff
+
+  // Update status indicators based on values
+  updateStatusIndicators(newBeds, newAmbulances, newWait, newStaff)
+}
+
+function updateStatusIndicators(beds, ambulances, waitTime, staff) {
+  const statusItems = document.querySelectorAll(".status-item")
+
+  // Update bed availability indicator
+  const bedIndicator = statusItems[0].querySelector(".status-indicator")
+  if (beds >= 15) {
+    bedIndicator.textContent = "Good Availability"
+    bedIndicator.className = "status-indicator good"
+  } else if (beds >= 10) {
+    bedIndicator.textContent = "Limited Availability"
+    bedIndicator.className = "status-indicator warning"
+  } else {
+    bedIndicator.textContent = "Low Availability"
+    bedIndicator.className = "status-indicator warning"
+  }
+
+  // Update ambulance indicator
+  const ambulanceIndicator = statusItems[1].querySelector(".status-indicator")
+  if (ambulances >= 5) {
+    ambulanceIndicator.textContent = "High Activity"
+    ambulanceIndicator.className = "status-indicator warning"
+  } else if (ambulances >= 2) {
+    ambulanceIndicator.textContent = "Incoming Patients"
+    ambulanceIndicator.className = "status-indicator warning"
+  } else {
+    ambulanceIndicator.textContent = "Normal Activity"
+    ambulanceIndicator.className = "status-indicator good"
+  }
+
+  // Update wait time indicator
+  const waitIndicator = statusItems[2].querySelector(".status-indicator")
+  if (waitTime <= 20) {
+    waitIndicator.textContent = "Below Target"
+    waitIndicator.className = "status-indicator good"
+  } else if (waitTime <= 35) {
+    waitIndicator.textContent = "At Target"
+    waitIndicator.className = "status-indicator warning"
+  } else {
+    waitIndicator.textContent = "Above Target"
+    waitIndicator.className = "status-indicator warning"
+  }
+
+  // Update staff indicator
+  const staffIndicator = statusItems[3].querySelector(".status-indicator")
+  if (staff >= 20) {
+    staffIndicator.textContent = "Fully Staffed"
+    staffIndicator.className = "status-indicator excellent"
+  } else if (staff >= 17) {
+    staffIndicator.textContent = "Well Staffed"
+    staffIndicator.className = "status-indicator good"
+  } else {
+    staffIndicator.textContent = "Adequate Staff"
+    staffIndicator.className = "status-indicator warning"
+  }
+}
+
+// AI Chat Functionality
+function initializeAIChat() {
   const userInput = document.getElementById("user-input")
   const sendButton = document.getElementById("send-button")
   const chatMessages = document.getElementById("chat-messages")
 
-  // Function to add a message to the chat display
   function addMessage(sender, message) {
     const messageDiv = document.createElement("div")
     messageDiv.classList.add("message", `${sender}-message`)
     messageDiv.textContent = message
     chatMessages.appendChild(messageDiv)
-    chatMessages.scrollTop = chatMessages.scrollHeight // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight
   }
 
-  // Function to send message to AI
   async function sendMessage() {
     const message = userInput.value.trim()
     if (!message) return
 
     addMessage("user", message)
-    userInput.value = "" // Clear input
+    userInput.value = ""
 
-    // Add a "typing" indicator
+    // Add typing indicator
     const typingIndicator = document.createElement("div")
-    typingIndicator.classList.add("message", "ai-message", "typing-indicator")
-    typingIndicator.textContent = "AI is typing..."
+    typingIndicator.classList.add("message", "ai-message")
+    typingIndicator.innerHTML =
+      '<i class="fas fa-circle"></i> <i class="fas fa-circle"></i> <i class="fas fa-circle"></i> AI is analyzing...'
+    typingIndicator.style.fontStyle = "italic"
+    typingIndicator.style.opacity = "0.7"
     chatMessages.appendChild(typingIndicator)
     chatMessages.scrollTop = chatMessages.scrollHeight
 
     try {
-      // Assuming the Python backend has an endpoint at /api/chat/general-medicine
-      // You might need to adjust this endpoint for each department if your backend handles them separately
       const response = await fetch("/api/chat/emergency", {
-        // Adjusted endpoint for emergency
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,12 +240,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await response.json()
-      chatMessages.removeChild(typingIndicator) // Remove typing indicator
+      chatMessages.removeChild(typingIndicator)
       addMessage("ai", data.response)
     } catch (error) {
       console.error("Error:", error)
-      chatMessages.removeChild(typingIndicator) // Remove typing indicator
-      addMessage("ai", "Sorry, I could not get a response. Please try again.")
+      chatMessages.removeChild(typingIndicator)
+      addMessage(
+        "ai",
+        "I apologize, but I'm currently unable to respond. In a medical emergency, please call 911 immediately or visit our Emergency Department directly.",
+      )
     }
   }
 
@@ -117,4 +258,20 @@ document.addEventListener("DOMContentLoaded", () => {
       sendMessage()
     }
   })
-})
+}
+
+// Utility function to format time
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  return `${mins}:${secs.toString().padStart(2, "0")}`
+}
+
+// Emergency contact functions
+function callEmergency() {
+  window.open("tel:911")
+}
+
+function callHospital() {
+  window.open("tel:5551234567") // Replace with actual hospital number
+}
