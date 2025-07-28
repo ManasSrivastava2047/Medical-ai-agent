@@ -1,93 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cardiology Department - ApexCare Hospital</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/departments/cardiology.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiology Department - ApexCare Hospital</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/departments/cardiology.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header class="hero-header">
-    <div class="header-content">
-      <a href="bookappt.html" class="back-button" aria-label="Back to Book Appointment">
-        <i class="fas fa-arrow-left"></i>
-      </a>
-      <h1>Cardiology Department</h1>
-      <p>Expert heart care for a healthier, stronger you.</p>
+<header class="hero-header">
+  <div class="header-content">
+    <a href="bookappt.html" class="back-button" aria-label="Back to Book Appointment">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <div class="heartbeat-animation" aria-hidden="true">
+      <i class="fas fa-heartbeat"></i>
     </div>
-  </header>
+    <h1>Cardiology Department</h1>
+    <p>Expert heart care for a healthier, stronger you.</p>
+  </div>
+</header>
 
-  <main class="container">
-    <section class="symptoms-section card">
-      <h2><i class="fas fa-heartbeat icon"></i> Common Conditions & Services</h2>
-      <ul>
-        <li><i class="fas fa-check-circle list-icon"></i> Chest Pain & Angina Management</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Palpitations & Arrhythmia Diagnosis</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Shortness of Breath & Heart Failure</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Hypertension (High Blood Pressure)</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Dizziness & Fainting Spells</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Swelling in Legs (Edema)</li>
-        <li><i class="fas fa-check-circle list-icon"></i> Cholesterol Management</li>
-      </ul>
-    </section>
+<main class="container">
+  <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+    <i class="fas fa-moon"></i> Dark Mode
+  </button>
 
-    <section class="doctors-section">
-      <h2><i class="fas fa-user-md icon"></i> Our Experienced Cardiologists</h2>
-      <div class="doctor-grid">
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. David Kim" class="doctor-avatar">
-          <h3>Dr. David Kim</h3>
-          <p><strong>Qualification:</strong> MD (Cardiology)</p>
-          <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 4:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait1">4</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait1')">Add to Queue</button>
-        </div>
+  <section class="symptoms-section card">
+    <h2><i class="fas fa-heartbeat icon"></i> Common Conditions & Services</h2>
+    <ul>
+      <li><i class="fas fa-check-circle list-icon"></i> Chest Pain & Angina Management</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Palpitations & Arrhythmia Diagnosis</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Shortness of Breath & Heart Failure</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Hypertension (High Blood Pressure)</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Dizziness & Fainting Spells</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Swelling in Legs (Edema)</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Cholesterol Management</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Valvular Heart Disease</li>
+      <li><i class="fas fa-check-circle list-icon"></i> Congenital Heart Defects</li>
+    </ul>
+  </section>
 
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Emily White" class="doctor-avatar">
-          <h3>Dr. Emily White</h3>
-          <p><strong>Qualification:</strong> MD (Electrophysiology)</p>
-          <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 5:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait2">2</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait2')">Add to Queue</button>
-        </div>
+  <section class="procedures-section card">
+    <h2><i class="fas fa-stethoscope icon"></i> Advanced Procedures & Treatments</h2>
+    <ul>
+      <li><i class="fas fa-plus-circle list-icon"></i> Electrocardiogram (ECG/EKG)</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Echocardiography & Stress Echo</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Cardiac Catheterization & Angioplasty</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Pacemaker & Defibrillator Implantation</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Electrophysiology Studies (EPS)</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Cardiac Rehabilitation Programs</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Coronary Artery Bypass Graft (CABG)</li>
+      <li><i class="fas fa-plus-circle list-icon"></i> Heart Transplant Evaluation</li>
+    </ul>
+  </section>
 
-        <div class="doctor-card card">
-          <img src="/placeholder.svg?height=80&width=80" alt="Dr. Robert Green" class="doctor-avatar">
-          <h3>Dr. Robert Green</h3>
-          <p><strong>Qualification:</strong> MD (Interventional Cardiology)</p>
-          <p><strong>Timings:</strong> Mon-Fri: 1:00 PM - 7:00 PM</p>
-          <p><strong>Current Waiting:</strong> <span id="wait3">3</span> patients</p>
-          <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
+  <section class="doctors-section">
+    <h2><i class="fas fa-user-md icon"></i> Our Experienced Cardiologists</h2>
+    <div class="doctor-grid">
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. David Kim" class="doctor-avatar">
+        <h3>Dr. David Kim</h3>
+        <p><strong>Qualification:</strong> MD (Cardiology), FACC</p>
+        <p><strong>Specialization:</strong> Interventional Cardiology</p>
+        <p><strong>Timings:</strong> Mon, Wed, Fri: 9:00 AM - 4:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait1">4</span> patients</p>
+        <div class="doctor-actions">
+          <button class="wait-btn" onclick="increment('wait1')"><i class="fas fa-hourglass-half"></i> Add to Queue</button>
         </div>
       </div>
-    </section>
 
-    <section class="ai-chat-section card">
-      <h2><i class="fas fa-robot icon"></i> Ask Our Cardiology AI Assistant</h2>
-      <div class="chat-container">
-        <div id="chat-messages" class="chat-messages">
-          <div class="message ai-message">Hello! I'm your Cardiology AI Assistant. How can I help you today?</div>
-        </div>
-        <div class="chat-input-area">
-          <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
-          <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Emily White" class="doctor-avatar">
+        <h3>Dr. Emily White</h3>
+        <p><strong>Qualification:</strong> MD (Electrophysiology), FHRS</p>
+        <p><strong>Specialization:</strong> Arrhythmia Management</p>
+        <p><strong>Timings:</strong> Tue, Thu: 10:00 AM - 5:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait2">2</span> patients</p>
+        <div class="doctor-actions">
+          <button class="wait-btn" onclick="increment('wait2')"><i class="fas fa-hourglass-half"></i> Add to Queue</button>
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
-    <div class="social-links">
-      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <div class="doctor-card card">
+        <img src="/placeholder.svg?height=80&width=80" alt="Dr. Robert Green" class="doctor-avatar">
+        <h3>Dr. Robert Green</h3>
+        <p><strong>Qualification:</strong> MD (Cardiology), PhD</p>
+        <p><strong>Specialization:</strong> Heart Failure & Transplant</p>
+        <p><strong>Timings:</strong> Mon-Fri: 1:00 PM - 7:00 PM</p>
+        <p><strong>Current Waiting:</strong> <span id="wait3">3</span> patients</p>
+        <div class="doctor-actions">
+          <button class="wait-btn" onclick="increment('wait3')"><i class="fas fa-hourglass-half"></i> Add to Queue</button>
+        </div>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <script src="{{ url_for('static', filename='js/departments/cardiology.js') }}"></script>
+  <section class="appointments-section card">
+    <h2><i class="fas fa-calendar-check icon"></i> My Appointments</h2>
+    <ul class="appointment-list">
+      <li class="appointment-item">
+        <div class="appointment-details">
+          <h3>Appointment with Dr. David Kim</h3>
+          <p><strong>Date:</strong> August 15, 2025</p>
+          <p><strong>Time:</strong> 10:00 AM</p>
+          <p><strong>Reason:</strong> Routine Check-up</p>
+        </div>
+        <span class="appointment-status status-upcoming">Upcoming</span>
+      </li>
+      <li class="appointment-item">
+        <div class="appointment-details">
+          <h3>Appointment with Dr. Emily White</h3>
+          <p><strong>Date:</strong> July 20, 2025</p>
+          <p><strong>Time:</strong> 02:30 PM</p>
+          <p><strong>Reason:</strong> Follow-up on Arrhythmia</p>
+        </div>
+        <span class="appointment-status status-completed">Completed</span>
+      </li>
+      <li class="appointment-item">
+        <div class="appointment-details">
+          <h3>Appointment with Dr. Robert Green</h3>
+          <p><strong>Date:</strong> September 01, 2025</p>
+          <p><strong>Time:</strong> 04:00 PM</p>
+          <p><strong>Reason:</strong> New Patient Consultation</p>
+        </div>
+        <span class="appointment-status status-pending">Pending Confirmation</span>
+      </li>
+      <li class="appointment-item">
+        <div class="appointment-details">
+          <h3>Appointment with Dr. David Kim</h3>
+          <p><strong>Date:</strong> June 10, 2025</p>
+          <p><strong>Time:</strong> 11:00 AM</p>
+          <p><strong>Reason:</strong> Annual Heart Scan</p>
+        </div>
+        <span class="appointment-status status-cancelled">Cancelled</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="education-section card">
+    <h2><i class="fas fa-book-medical icon"></i> Patient Education & Resources</h2>
+    <ul>
+      <li><a href="#" target="_blank"><i class="fas fa-external-link-alt link-icon"></i> Understanding Heart Disease: A Comprehensive Guide</a></li>
+      <li><a href="#" target="_blank"><i class="fas fa-external-link-alt link-icon"></i> Healthy Heart Diet: Recipes and Tips</a></li>
+      <li><a href="#" target="_blank"><i class="fas fa-external-link-alt link-icon"></i> Managing Hypertension: Lifestyle Changes</a></li>
+      <li><a href="#" target="_blank"><i class="fas fa-external-link-alt link-icon"></i> What to Expect During a Stress Test</a></li>
+      <li><a href="#" target="_blank"><i class="fas fa-external-link-alt link-icon"></i> Living with Arrhythmia: Patient Stories</a></li>
+    </ul>
+  </section>
+
+  <section class="online-consultation-section card">
+    <h2><i class="fas fa-video icon"></i> Online Consultation</h2>
+    <p>Connect with our cardiologists from the comfort of your home for follow-ups, medication reviews, or general advice.</p>
+    <a href="#" class="consult-btn"><i class="fas fa-video"></i> Schedule a Virtual Visit</a>
+  </section>
+
+  <section class="testimonials-section card">
+    <h2><i class="fas fa-comments icon"></i> Patient Testimonials</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p>"The care I received at ApexCare Cardiology was exceptional. Dr. Kim explained everything clearly and made me feel at ease. My heart health has improved significantly!"</p>
+        <span class="testimonial-author">- Sarah L.</span>
+      </div>
+      <div class="testimonial-card">
+        <p>"After years of struggling with arrhythmia, Dr. White's expertise finally gave me my life back. The entire team was supportive and professional."</p>
+        <span class="testimonial-author">- John D.</span>
+      </div>
+      <div class="testimonial-card">
+        <p>"I highly recommend this department. Dr. Green's compassionate approach and thorough diagnosis were exactly what I needed. Truly life-saving care."</p>
+        <span class="testimonial-author">- Maria P.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section card">
+    <h2><i class="fas fa-question-circle icon"></i> Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question" role="button" aria-expanded="false" tabindex="0">
+        What is a cardiologist? <i class="fas fa-chevron-down arrow-icon"></i>
+      </div>
+      <div class="faq-answer">
+        A cardiologist is a medical doctor who specializes in diagnosing, treating, and preventing diseases of the heart and blood vessels. They manage conditions like high blood pressure, heart attacks, heart failure, and arrhythmias.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" role="button" aria-expanded="false" tabindex="0">
+        When should I see a cardiologist? <i class="fas fa-chevron-down arrow-icon"></i>
+      </div>
+      <div class="faq-answer">
+        You should consider seeing a cardiologist if you experience symptoms like chest pain, shortness of breath, dizziness, palpitations, or swelling in your legs. Also, if you have risk factors such as high blood pressure, high cholesterol, diabetes, or a family history of heart disease.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" role="button" aria-expanded="false" tabindex="0">
+        What tests might a cardiologist perform? <i class="fas fa-chevron-down arrow-icon"></i>
+      </div>
+      <div class="faq-answer">
+        Common tests include Electrocardiogram (ECG/EKG), Echocardiogram, Stress Test, Holter Monitor, Cardiac Catheterization, and Blood Tests to assess cholesterol and other markers.
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-chat-section card">
+    <h2><i class="fas fa-robot icon"></i> Ask Our Cardiology AI Assistant</h2>
+    <div class="chat-container">
+      <div id="chat-messages" class="chat-messages">
+        <div class="message ai-message">Hello! I'm your Cardiology AI Assistant. How can I help you today?</div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
+        <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section card">
+    <h2><i class="fas fa-info-circle icon"></i> Department Information</h2>
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fas fa-phone-alt icon"></i>
+        <span>(555) 123-4567</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-envelope icon"></i>
+        <span>cardiology@apexcare.com</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt icon"></i>
+        <span>123 Heartbeat Ave, Health City, HC 98765</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-clock icon"></i>
+        <span>Mon-Fri: 8:00 AM - 6:00 PM</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 ApexCare Hospital. All rights reserved.</p>
+  <div class="social-links">
+    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/departments/cardiology.js') }}"></script>
 </body>
 </html>

@@ -161,7 +161,6 @@ class DentalDepartment {
 
     this.sendQuickMessage(`I need help with: ${serviceName}`)
 
-    // Scroll to chat section
     document.querySelector(".ai-chat-section").scrollIntoView({
       behavior: "smooth",
     })

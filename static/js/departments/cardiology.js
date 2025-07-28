@@ -60,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userInput = document.getElementById("user-input")
   const sendButton = document.getElementById("send-button")
   const chatMessages = document.getElementById("chat-messages")
+  const darkModeToggle = document.getElementById("dark-mode-toggle")
+  const faqQuestions = document.querySelectorAll(".faq-question")
 
   // Function to add a message to the chat display
   function addMessage(sender, message) {
@@ -115,5 +117,59 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.key === "Enter") {
       sendMessage()
     }
+  })
+
+  // --- Dark Mode Toggle Functionality ---
+  function enableDarkMode() {
+    document.body.setAttribute("data-theme", "dark")
+    localStorage.setItem("theme", "dark")
+    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode'
+  }
+
+  function disableDarkMode() {
+    document.body.removeAttribute("data-theme")
+    localStorage.setItem("theme", "light")
+    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode'
+  }
+
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem("theme")
+  if (savedTheme === "dark") {
+    enableDarkMode()
+  } else {
+    disableDarkMode() // Ensure light mode is default if no preference or 'light'
+  }
+
+  darkModeToggle.addEventListener("click", () => {
+    if (document.body.getAttribute("data-theme") === "dark") {
+      disableDarkMode()
+    } else {
+      enableDarkMode()
+    }
+  })
+
+  // --- FAQ Accordion Functionality ---
+  faqQuestions.forEach((question) => {
+    question.addEventListener("click", () => {
+      const answer = question.nextElementSibling
+      const isExpanded = question.getAttribute("aria-expanded") === "true"
+
+      // Close all other open answers
+      faqQuestions.forEach((otherQuestion) => {
+        if (otherQuestion !== question && otherQuestion.getAttribute("aria-expanded") === "true") {
+          otherQuestion.setAttribute("aria-expanded", "false")
+          otherQuestion.nextElementSibling.style.display = "none"
+        }
+      })
+
+      // Toggle current answer
+      if (isExpanded) {
+        question.setAttribute("aria-expanded", "true")
+        answer.style.display = "block"
+      } else {
+        question.setAttribute("aria-expanded", "false")
+        answer.style.display = "none"
+      }
+    })
   })
 })
