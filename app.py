@@ -194,7 +194,6 @@ def department_chat(department_slug):
         DEPARTMENT_AI_PROMPTS["general-medicine"]
     )
     try:
-        # Invoke the LLM with the system message and user's message
         response = llm.invoke([
             SystemMessage(content=system_prompt),
             HumanMessage(content=user_message)
