@@ -29,6 +29,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem;
+  position: relative; /* Needed for absolute positioning of quotes */
 }
 
 .card {
@@ -57,6 +58,7 @@ h1 {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
   letter-spacing: -0.05em;
+  color: var(--color-text-light); /* Changed to lighter color */
 }
 
 h2 {
@@ -135,6 +137,59 @@ h3 {
 .back-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
   transform: translateX(-5px);
+}
+
+/* Random Quotes Styling */
+.random-quote-container {
+  position: absolute;
+  width: 250px; /* Fixed width for quotes */
+  padding: 1rem;
+  background-color: rgba(155, 89, 182, 0.8); /* Semi-transparent accent color */
+  color: var(--color-text-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 10; /* Ensure they float above content */
+  opacity: 0; /* Start hidden */
+  transition: opacity 1s ease-in-out;
+}
+
+.random-quote-container.fade-in {
+  opacity: 1;
+}
+
+.random-quote-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.random-quote-author {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* Specific positions for 4 quotes */
+.quote-1 {
+  top: 100px;
+  left: 50px;
+}
+
+.quote-2 {
+  top: 300px;
+  right: 50px;
+}
+
+.quote-3 {
+  top: 600px;
+  left: 80px;
+}
+
+.quote-4 {
+  top: 850px;
+  right: 80px;
 }
 
 /* Symptoms Section */
@@ -243,6 +298,284 @@ h3 {
   color: var(--color-secondary);
   font-weight: 600;
   margin-top: 0.75rem;
+}
+
+/* Breathing Exercise Section */
+.breathing-exercise-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.exercise-intro {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-dark);
+}
+
+.breathing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.breathing-circle {
+  width: 150px;
+  height: 150px;
+  background-color: var(--color-secondary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 0 0 10px rgba(130, 224, 170, 0.4);
+  transition: all 4s ease-in-out; /* For breathing animation */
+}
+
+.breathing-circle.expand {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 20px rgba(130, 224, 170, 0.6);
+}
+
+.breathing-circle.contract {
+  transform: scale(0.8);
+  box-shadow: 0 0 0 5px rgba(130, 224, 170, 0.2);
+}
+
+#start-breathing-btn {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#start-breathing-btn:hover {
+  background-color: #1e8449;
+}
+
+/* FAQ Section */
+.faq-section {
+  margin-bottom: 2rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid #eee;
+  padding: 1rem 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.15rem;
+  color: var(--color-primary);
+  margin-bottom: 0;
+  padding: 0.5rem 0;
+}
+
+.faq-question i {
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+  padding: 0 1rem;
+}
+
+.faq-answer.open {
+  max-height: 200px; /* Adjust based on content */
+  padding: 1rem 1rem;
+}
+
+.faq-answer p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-dark);
+}
+
+/* Resources Section */
+.resources-section {
+  margin-bottom: 2rem;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.resource-card {
+  display: block; /* Make the whole card clickable */
+  background-color: var(--color-background);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  text-decoration: none;
+  color: var(--color-text-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.resource-card h3 {
+  color: var(--color-primary);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.resource-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  margin-bottom: 2rem;
+}
+
+.testimonial-carousel {
+  display: flex;
+  overflow-x: hidden; /* Hide overflow for carousel effect */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 1.5rem;
+  padding-bottom: 1rem; /* Space for dots */
+}
+
+.testimonial-item {
+  flex: 0 0 100%; /* Each item takes full width */
+  scroll-snap-align: start;
+  background-color: var(--color-background);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: var(--shadow-light);
+  text-align: center;
+}
+
+.testimonial-quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: var(--color-text-dark);
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: var(--color-primary);
+}
+
+/* Inquiry Form Section */
+.inquiry-form-section {
+  margin-bottom: 2rem;
+}
+
+.inquiry-form-section p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-dark);
+}
+
+.inquiry-form-section .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.inquiry-form-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-size: 1.05rem;
+}
+
+.inquiry-form-section input[type="text"],
+.inquiry-form-section input[type="email"],
+.inquiry-form-section textarea {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.inquiry-form-section input[type="text"]:focus,
+.inquiry-form-section input[type="email"]:focus,
+.inquiry-form-section textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(130, 224, 170, 0.2);
+  outline: none;
+}
+
+.inquiry-form-section textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.inquiry-form-section .submit-btn {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  width: auto; /* Allow button to size to content */
+  display: inline-flex; /* For icon if added */
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.inquiry-form-section .submit-btn:hover {
+  background-color: #1e8449;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(39, 174, 96, 0.3);
 }
 
 /* AI Chat Section */
@@ -382,6 +715,30 @@ footer p {
 }
 
 /* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .random-quote-container {
+    width: 200px;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  .quote-1 {
+    top: 80px;
+    left: 20px;
+  }
+  .quote-2 {
+    top: 250px;
+    right: 20px;
+  }
+  .quote-3 {
+    top: 500px;
+    left: 30px;
+  }
+  .quote-4 {
+    top: 750px;
+    right: 30px;
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 2.5rem;
@@ -435,6 +792,15 @@ footer p {
   .chat-input-area button {
     width: 100%;
     margin-right: 0;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide random quotes on smaller screens to prevent clutter */
+  .random-quote-container {
+    display: none;
   }
 }
 

@@ -20,6 +20,24 @@
   </header>
 
   <main class="container">
+    <!-- Random Quotes will be injected here by JS, or placed as fixed elements -->
+    <div class="random-quote-container quote-1">
+      <p class="random-quote-text"></p>
+      <p class="random-quote-author"></p>
+    </div>
+    <div class="random-quote-container quote-2">
+      <p class="random-quote-text"></p>
+      <p class="random-quote-author"></p>
+    </div>
+    <div class="random-quote-container quote-3">
+      <p class="random-quote-text"></p>
+      <p class="random-quote-author"></p>
+    </div>
+    <div class="random-quote-container quote-4">
+      <p class="random-quote-text"></p>
+      <p class="random-quote-author"></p>
+    </div>
+
     <section class="symptoms-section card">
       <h2><i class="fas fa-brain icon"></i> Common Conditions & Services</h2>
       <ul>
@@ -63,6 +81,106 @@
           <button class="wait-btn" onclick="increment('wait3')">Add to Queue</button>
         </div>
       </div>
+    </section>
+
+    <section class="breathing-exercise-section card">
+      <h2><i class="fas fa-lungs icon"></i> Guided Breathing Exercise</h2>
+      <p class="exercise-intro">Take a moment to calm your mind with this simple breathing exercise.</p>
+      <div class="breathing-container">
+        <div class="breathing-circle">
+          <span id="breathing-instruction">Breathe In</span>
+        </div>
+      </div>
+      <button id="start-breathing-btn" class="submit-btn">Start Exercise</button>
+    </section>
+
+    <section class="faq-section card">
+      <h2><i class="fas fa-question-circle icon"></i> Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3 class="faq-question">What is mental health? <i class="fas fa-chevron-down"></i></h3>
+        <div class="faq-answer">
+          <p>Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act. It also helps determine how we handle stress, relate to others, and make choices.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">When should I seek professional help? <i class="fas fa-chevron-down"></i></h3>
+        <div class="faq-answer">
+          <p>If you're experiencing persistent sadness, anxiety, changes in sleep or appetite, difficulty concentrating, or thoughts of self-harm, it's advisable to seek professional help. Our team can provide a safe space for support.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What types of therapy do you offer? <i class="fas fa-chevron-down"></i></h3>
+        <div class="faq-answer">
+          <p>We offer a range of therapies including Cognitive Behavioral Therapy (CBT), Dialectical Behavior Therapy (DBT), psychodynamic therapy, family therapy, and group therapy, tailored to individual needs.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Is my information confidential? <i class="fas fa-chevron-down"></i></h3>
+        <div class="faq-answer">
+          <p>Yes, patient confidentiality is a cornerstone of our practice. All your personal and medical information is kept strictly confidential in accordance with privacy laws and ethical guidelines.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-section card">
+      <h2><i class="fas fa-book-open icon"></i> Resources & Support</h2>
+      <div class="resource-grid">
+        <a href="#" class="resource-card">
+          <h3>Crisis Hotlines</h3>
+          <p>Immediate support for mental health crises.</p>
+        </a>
+        <a href="#" class="resource-card">
+          <h3>Therapy Finder</h3>
+          <p>Locate qualified mental health professionals near you.</p>
+        </a>
+        <a href="#" class="resource-card">
+          <h3>Self-Help Guides</h3>
+          <p>Articles and tools for managing common conditions.</p>
+        </a>
+        <a href="#" class="resource-card">
+          <h3>Support Groups</h3>
+          <p>Connect with others facing similar challenges.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="testimonials-section card">
+      <h2><i class="fas fa-comments icon"></i> Patient Testimonials</h2>
+      <div class="testimonial-carousel">
+        <div class="testimonial-item">
+          <p class="testimonial-quote">"ApexCare's mental health team helped me find my way back to myself. Their compassionate approach made all the difference."</p>
+          <p class="testimonial-author">- Sarah L.</p>
+        </div>
+        <div class="testimonial-item">
+          <p class="testimonial-quote">"I finally feel understood and supported. The therapy sessions here have been life-changing."</p>
+          <p class="testimonial-author">- David P.</p>
+        </div>
+        <div class="testimonial-item">
+          <p class="testimonial-quote">"From anxiety management to stress reduction, the resources provided were invaluable. Highly recommend!"</p>
+          <p class="testimonial-author">- Emily R.</p>
+        </div>
+      </div>
+      <div class="carousel-dots"></div>
+    </section>
+
+    <section class="inquiry-form-section card">
+      <h2><i class="fas fa-envelope icon"></i> Direct Inquiry</h2>
+      <p>Have a question or need to schedule an initial consultation? Fill out the form below.</p>
+      <form id="inquiry-form">
+        <div class="form-group">
+          <label for="inquiry-name">Your Name</label>
+          <input type="text" id="inquiry-name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="inquiry-email">Your Email</label>
+          <input type="email" id="inquiry-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="inquiry-message">Your Message</label>
+          <textarea id="inquiry-message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Inquiry</button>
+      </form>
     </section>
 
     <section class="ai-chat-section card">
