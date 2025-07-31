@@ -9,10 +9,10 @@ const departmentSelect = document.getElementById("department-select")
 // Define the redirection map for departments
 const redirects = {
   general: "/departments/general-medicine",
-  "general medicine": "/departments/general-medicine", // Ensure consistency with AI output
+  "general medicine": "/departments/general-medicine",
   emergency: "/departments/emergency",
-  "mental health": "/departments/mental_health", // Ensure consistency with AI output
-  psychiatry: "/departments/mental_health", // Maps to mental_health
+  "mental health": "/departments/mental_health",
+  mentalhealth: "/departments/mental_health",
   cardiology: "/departments/cardiology",
   pulmonology: "/departments/pulmonology",
   gastroenterology: "/departments/gastroenterology",
@@ -26,9 +26,8 @@ const redirects = {
   urology: "/departments/urology",
   endocrinology: "/departments/endocrinology",
   oncology: "/departments/oncology",
-  dental: "/departments/dental",
+  dental: "/departments/dental"
 }
-
 // Function to check if all required fields are filled and either symptom or department is selected
 function checkFormValidity() {
   const name = document.getElementById("name").value.trim()
