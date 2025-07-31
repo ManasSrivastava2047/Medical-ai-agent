@@ -134,7 +134,7 @@ h3 {
 }
 
 .back-button {
-  position:absolute;
+  position: absolute;
   top: 1.5rem; /* Little padding from top */
   right: 1.5rem; /* Extreme right position with little padding */
   left: auto; /* Ensure it's not affected by left property */
@@ -148,7 +148,8 @@ h3 {
   transition: background-color var(--transition-speed) ease, transform 0.2s ease;
   display: flex;
   align-items: center;
-  ;
+  
+;
   gap: 0.5rem;
   text-decoration: none;
   z-index: 10;
@@ -513,4 +514,61 @@ form textarea {
   .form-group label {
     font-size: 0.95rem;
   }
+}
+
+.symptom-or-department {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.or-text {
+  padding: 0 1rem;
+  position: relative;
+}
+
+.or-text::before,
+.or-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px; /* Adjust as needed */
+  height: 1px;
+  background-color: #ccc;
+}
+
+.or-text::before {
+  left: -50px; /* Adjust to position line */
+}
+
+.or-text::after {
+  right: -50px; /* Adjust to position line */
+}
+
+form select {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-input);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  box-sizing: border-box;
+  background-color: var(--color-card-bg); /* Ensure background matches inputs */
+  -webkit-appearance: none; /* Remove default browser styling for dropdown */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%230077b6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-5.4H18.6c-5%200-9.3%201.8-13.2%205.4A17.6%2017.6%200%200%200%200%2082.6c0%204.8%201.8%209.3%205.4%2013.2l128%20128c3.9%203.9%208.4%205.4%2013.2%205.4s9.3-1.8%2013.2-5.4l128-128c3.9-3.9%205.4-8.4%205.4-13.2%200-4.8-1.8-9.3-5.4-13.2z%22%2F%3E%3C%2Fsvg%3E"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+}
+
+form select:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+  outline: none;
 }
