@@ -43,7 +43,6 @@ DEPARTMENT_AI_PROMPTS = {
     "cardiology": "...",
     "mental_health": "...",
     "dental": "..."
-    # Add more as needed
 }
 
 def get_symptom(state: dict) -> dict:
