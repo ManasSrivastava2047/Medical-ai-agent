@@ -1,10 +1,19 @@
-const form = document.querySelector("form")
+const symptomForm = document.querySelector("form[action='/book']")
 const analyzeBtn = document.getElementById("analyzeBtn")
 const gotoDoctorBtn = document.querySelector(".gotoDoctorBtn")
 const buttonText = analyzeBtn.querySelector(".button-text")
 const spinner = analyzeBtn.querySelector(".spinner")
 const symptomTextarea = document.getElementById("symptom")
 const departmentSelect = document.getElementById("department-select")
+
+// New elements for authentication
+const showSignupBtn = document.getElementById("showSignupBtn")
+const showLoginBtn = document.getElementById("showLoginBtn")
+const signupForm = document.getElementById("signupForm")
+const loginForm = document.getElementById("loginForm")
+const signupMessage = document.getElementById("signup-message")
+const loginMessage = document.getElementById("login-message")
+const profileDisplay = document.getElementById("profile-display")
 
 // Define the redirection map for departments
 const redirects = {
@@ -26,44 +35,30 @@ const redirects = {
   urology: "/departments/urology",
   endocrinology: "/departments/endocrinology",
   oncology: "/departments/oncology",
-  dental: "/departments/dental"
+  dental: "/departments/dental",
 }
-// Function to check if all required fields are filled and either symptom or department is selected
-function checkFormValidity() {
-  const name = document.getElementById("name").value.trim()
-  const age = document.getElementById("age").value.trim()
-  const email = document.getElementById("email").value.trim()
-  const phone = document.getElementById("phone").value.trim()
+
+// Function to check if symptom form is valid
+function checkSymptomFormValidity() {
   const symptom = symptomTextarea.value.trim()
   const selectedDepartment = departmentSelect.value
 
-  const coreInfoFilled = name && age && email && phone
-  const symptomOrDepartmentFilled = symptom || selectedDepartment
-
-  analyzeBtn.disabled = !(coreInfoFilled && symptomOrDepartmentFilled)
+  analyzeBtn.disabled = !(symptom || selectedDepartment)
 
   // Manage the "Go to Recommended Department" button
   if (selectedDepartment) {
-    // If a department is selected from the dropdown
     gotoDoctorBtn.disabled = false
     const displayDepartment = selectedDepartment.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
     gotoDoctorBtn.innerHTML = `<i class="fas fa-arrow-right"></i> Go to ${displayDepartment} Department`
     gotoDoctorBtn.onclick = () => handleRedirect(selectedDepartment)
   } else {
-    // If no department is selected from the dropdown
     const hasResultSection = document.querySelector(".result-section .response-text")
     if (!hasResultSection) {
-      // If no result from Flask, disable the button and reset text
       gotoDoctorBtn.disabled = true
       gotoDoctorBtn.innerHTML = `<i class="fas fa-arrow-right"></i> Go to Recommended Department`
-      gotoDoctorBtn.onclick = null // Clear any previous onclick
+      gotoDoctorBtn.onclick = null
     } else {
-      // If there's a result from Flask, the button's onclick is already set by Flask.
-      // We just need to ensure it's enabled.
       gotoDoctorBtn.disabled = false
-      // The text and onclick are already set by Flask's template rendering.
-      // No need to modify them here unless we want to override Flask's behavior.
-      // For now, we assume Flask's initial rendering is correct for the result state.
     }
   }
 }
@@ -71,10 +66,7 @@ function checkFormValidity() {
 // Function to handle redirection to department pages
 function handleRedirect(department) {
   console.log("handleRedirect called with department:", department)
-
-  // Normalize department string for lookup
   const normalizedDepartment = department.toLowerCase().trim()
-
   const target = redirects[normalizedDepartment]
 
   if (target) {
@@ -86,20 +78,126 @@ function handleRedirect(department) {
   }
 }
 
-// Initial check on page load
-document.addEventListener("DOMContentLoaded", () => {
-  checkFormValidity()
+// Function to display user info in the profile box
+function displayUserProfile(user) {
+  if (user && user.name) {
+    profileDisplay.innerHTML = `
+      <p><strong>Name:</strong> ${user.name}</p>
+      <p><strong>Age:</strong> ${user.age} years</p>
+      <p><strong>Email:</strong> ${user.email}</p>
+      <p><strong>Phone:</strong> ${user.phone}</p>
+    `
+  } else {
+    profileDisplay.innerHTML = `<p class="placeholder-text">Please sign up or log in to see your details here.</p>`
+  }
+}
+
+// Authentication UI functions
+function showForm(formToShow) {
+  signupForm.style.display = "none"
+  loginForm.style.display = "none"
+  signupMessage.textContent = ""
+  loginMessage.textContent = ""
+
+  if (formToShow === "signup") {
+    signupForm.style.display = "block"
+    showSignupBtn.classList.add("active")
+    showLoginBtn.classList.remove("active")
+  } else if (formToShow === "login") {
+    loginForm.style.display = "block"
+    showLoginBtn.classList.add("active")
+    showSignupBtn.classList.remove("active")
+  }
+}
+
+// Handle Signup Form Submission
+signupForm.addEventListener("submit", async (event) => {
+  event.preventDefault()
+  signupMessage.textContent = ""
+
+  const formData = new FormData(signupForm)
+  const data = Object.fromEntries(formData.entries())
+
+  try {
+    const response = await fetch("/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    const result = await response.json()
+
+    if (response.ok) {
+      signupMessage.textContent = result.message
+      signupMessage.style.color = "var(--color-success)"
+      signupForm.reset()
+      // Optionally, automatically switch to login form after successful signup
+      setTimeout(() => showForm("login"), 2000)
+    } else {
+      signupMessage.textContent = result.error || "Signup failed."
+      signupMessage.style.color = "var(--color-error)"
+    }
+  } catch (error) {
+    console.error("Error during signup:", error)
+    signupMessage.textContent = "An unexpected error occurred."
+    signupMessage.style.color = "var(--color-error)"
+  }
 })
 
-// Listen for input changes on the form to enable/disable the analyze button
-form.addEventListener("input", checkFormValidity)
+// Handle Login Form Submission
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault()
+  loginMessage.textContent = ""
 
-// Listen for changes on the department select dropdown
-departmentSelect.addEventListener("change", checkFormValidity)
+  const formData = new FormData(loginForm)
+  const data = Object.fromEntries(formData.entries())
 
-// Handle form submission
-form.addEventListener("submit", () => {
+  try {
+    const response = await fetch("/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+    const result = await response.json()
+
+    if (response.ok) {
+      loginMessage.textContent = result.message
+      loginMessage.style.color = "var(--color-success)"
+      loginForm.reset()
+      // Update profile display with logged-in user info
+      displayUserProfile(result.user)
+      // Optionally, hide auth forms after successful login
+      showForm(null) // Hide all auth forms
+    } else {
+      loginMessage.textContent = result.error || "Login failed."
+      loginMessage.style.color = "var(--color-error)"
+    }
+  } catch (error) {
+    console.error("Error during login:", error)
+    loginMessage.textContent = "An unexpected error occurred."
+    loginMessage.style.color = "var(--color-error)"
+  }
+})
+
+// Initial checks and event listeners
+document.addEventListener("DOMContentLoaded", () => {
+  checkSymptomFormValidity()
+
+})
+
+symptomForm.addEventListener("input", checkSymptomFormValidity)
+departmentSelect.addEventListener("change", checkSymptomFormValidity)
+
+// Handle symptom form submission (existing logic)
+symptomForm.addEventListener("submit", () => {
   analyzeBtn.disabled = true
   buttonText.style.display = "none"
   spinner.style.display = "inline-block"
 })
+
+// Event listeners for new auth buttons
+showSignupBtn.addEventListener("click", () => showForm("signup"))
+showLoginBtn.addEventListener("click", () => showForm("login"))

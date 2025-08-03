@@ -1,6 +1,7 @@
-# app.py
-from flask import Flask, render_template, request, abort, jsonify
+from flask import Flask, render_template, request, abort, jsonify, session
 import os
+import mysql.connector
+import bcrypt # For password hashing
 from langgraph.graph import StateGraph, END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -13,6 +14,24 @@ if not api_key:
 os.environ["GOOGLE_API_KEY"] = api_key
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey") # Needed for sessions
+
+# MySQL Database Configuration
+db_config = {
+    "host": os.getenv("MYSQL_HOST", "localhost"),
+    "user": os.getenv("MYSQL_USER", "root"),
+    "password": os.getenv("MYSQL_PASSWORD", ""),
+    "database": os.getenv("MYSQL_DATABASE", "apexcare_db"),
+}
+
+def get_db_connection():
+    try:
+        conn = mysql.connector.connect(**db_config)
+        return conn
+    except mysql.connector.Error as err:
+        print(f"Error connecting to MySQL: {err}")
+        return None
+
 llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-flash-latest", temperature=0.2)
 
 redirect_map = {
@@ -90,12 +109,9 @@ def index():
 def book():
     result, details, redirect_url = None, None, "#"
     department_name = "Recommended"
-    user_info = {}
+    user_info = session.get('user_info', {}) # Get user info from session if logged in
+
     if request.method == 'POST':
-        user_info['name'] = request.form.get('name', '')
-        user_info['age'] = request.form.get('age', '')
-        user_info['email'] = request.form.get('email', '')
-        user_info['phone'] = request.form.get('phone', '')
         user_symptom = request.form.get('symptom', '')
         selected_department = request.form.get('department_select', '')
 
@@ -103,7 +119,7 @@ def book():
             final_state = graph.invoke({"symptom": user_symptom})
             result = f"Classification: {final_state.get('answer')}"
             details = final_state.get("details")
-            ai_category = final_state.get("category", "General")
+            ai_category = final_state.get('category', 'General')
             normalized_ai_category = ai_category.lower().replace(" ", "")
             department_name = normalized_ai_category
         elif selected_department:
@@ -121,7 +137,7 @@ def book():
     return render_template('bookappt.html',
                            result=result,
                            details=details,
-                           user_info=user_info,
+                           user_info=user_info, # Pass user_info from session
                            redirect_url=redirect_url,
                            department_name=department_name)
 
@@ -151,6 +167,83 @@ def department_chat(department_slug):
         return jsonify({"response": ai_response})
     except Exception as e:
         return jsonify({"error": "Failed to get AI response"}), 500
+
+# --- New Authentication Routes ---
+@app.route('/auth/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    name = data.get('name')
+    age = data.get('age')
+    email = data.get('email')
+    phone = data.get('phone')
+    password = data.get('password')
+
+    if not all([name, age, email, phone, password]):
+        return jsonify({"error": "All fields are required."}), 400
+
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+
+    cursor = conn.cursor()
+    try:
+        # Check if email or phone already exists
+        cursor.execute("SELECT id FROM users WHERE email = %s OR phone = %s", (email, phone))
+        if cursor.fetchone():
+            return jsonify({"error": "Email or phone number already registered."}), 409
+
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+        cursor.execute(
+            "INSERT INTO users (name, age, email, phone, password_hash) VALUES (%s, %s, %s, %s, %s)",
+            (name, age, email, phone, hashed_password)
+        )
+        conn.commit()
+        return jsonify({"message": "Sign up successful! You can now log in."}), 201
+    except mysql.connector.Error as err:
+        conn.rollback()
+        print(f"MySQL error during signup: {err}")
+        return jsonify({"error": "Database error during signup."}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/auth/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    phone = data.get('phone')
+    password = data.get('password')
+
+    if not all([phone, password]):
+        return jsonify({"error": "Phone number and password are required."}), 400
+
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed."}), 500
+
+    cursor = conn.cursor(dictionary=True) # Return rows as dictionaries
+    try:
+        cursor.execute("SELECT * FROM users WHERE phone = %s", (phone,))
+        user = cursor.fetchone()
+
+        if not user or not bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
+            return jsonify({"error": "Invalid phone number or password."}), 401
+
+        # Store user info in session (for demonstration, in a real app use more robust session management)
+        session['user_info'] = {
+            'id': user['id'],
+            'name': user['name'],
+            'age': user['age'],
+            'email': user['email'],
+            'phone': user['phone']
+        }
+        return jsonify({"message": "Login successful!", "user": session['user_info']}), 200
+    except mysql.connector.Error as err:
+        print(f"MySQL error during login: {err}")
+        return jsonify({"error": "Database error during login."}), 500
+    finally:
+        cursor.close()
+        conn.close()
 
 if __name__ == '__main__':
     app.run(debug=True)

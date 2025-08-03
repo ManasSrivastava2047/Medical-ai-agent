@@ -21,34 +21,68 @@
 <main class="container">
 <aside class="user-info-box card">
     <h3><i class="fas fa-user-circle icon"></i> Your Profile</h3>
-    {% if user_info %}
-    <p><strong>Name:</strong> {{ user_info.name }}</p>
-    <p><strong>Age:</strong> {{ user_info.age }} years</p>
-    <p><strong>Email:</strong> {{ user_info.email }}</p>
-    <p><strong>Phone:</strong> {{ user_info.phone }}</p>
-    {% else %}
-    <p class="placeholder-text">Please fill out the form to see your details here.</p>
-    {% endif %}
+    <div id="profile-display">
+      {% if user_info and user_info.name %}
+      <p><strong>Name:</strong> {{ user_info.name }}</p>
+      <p><strong>Age:</strong> {{ user_info.age }} years</p>
+      <p><strong>Email:</strong> {{ user_info.email }}</p>
+      <p><strong>Phone:</strong> {{ user_info.phone }}</p>
+      {% else %}
+      <p class="placeholder-text">Please sign up or log in to see your details here.</p>
+      {% endif %}
+    </div>
 </aside>
 <section class="main-content">
+    <div class="auth-section card">
+        <h2><i class="fas fa-user-lock icon"></i> Account Access</h2>
+        <div class="auth-buttons">
+            <button type="button" id="showSignupBtn" class="submit-btn">Sign Up</button>
+            <button type="button" id="showLoginBtn" class="submit-btn secondary-btn">Sign In</button>
+        </div>
+
+        <form id="signupForm" class="auth-form" style="display: none;">
+            <h3>Create Your Account</h3>
+            <div class="form-group">
+                <label for="signup-name">Your Name</label>
+                <input type="text" id="signup-name" name="name" placeholder="e.g., John Doe" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="signup-age">Your Age</label>
+                <input type="number" id="signup-age" name="age" placeholder="e.g., 30" required min="1" max="120" aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email Address</label>
+                <input type="email" id="signup-email" name="email" placeholder="e.g., john.doe@example.com" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="signup-phone">Phone Number</label>
+                <input type="tel" id="signup-phone" name="phone" placeholder="e.g., +1234567890" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="password" required aria-required="true">
+            </div>
+            <button type="submit" class="submit-btn">Sign Up</button>
+            <p id="signup-message" class="auth-message"></p>
+        </form>
+
+        <form id="loginForm" class="auth-form" style="display: none;">
+            <h3>Log In to Your Account</h3>
+            <div class="form-group">
+                <label for="login-phone">Phone Number</label>
+                <input type="tel" id="login-phone" name="phone" placeholder="e.g., +1234567890" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" required aria-required="true">
+            </div>
+            <button type="submit" class="submit-btn">Sign In</button>
+            <p id="login-message" class="auth-message"></p>
+        </form>
+    </div>
+
     <form method="POST" action="/book" class="card">
         <h2><i class="fas fa-notes-medical icon"></i> Describe Your Symptoms</h2>
-        <div class="form-group">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" placeholder="e.g., John Doe" required aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="age">Your Age</label>
-          <input type="number" id="age" name="age" placeholder="e.g., 30" required min="1" max="120" aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="e.g., john.doe@example.com" required aria-required="true">
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="e.g., +1234567890" required aria-required="true">
-        </div>
         <div class="form-group">
           <label for="symptom">Describe your symptom in detail</label>
           <textarea id="symptom" name="symptom" rows="5" placeholder="e.g., 'I have a persistent cough for 3 days, accompanied by a mild fever and body aches. I also feel tired.'"></textarea>
