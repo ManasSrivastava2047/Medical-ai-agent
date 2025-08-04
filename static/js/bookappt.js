@@ -167,6 +167,10 @@ loginForm.addEventListener("submit", async (event) => {
       loginMessage.textContent = result.message
       loginMessage.style.color = "var(--color-success)"
       loginForm.reset()
+            symptomTextarea.disabled = false
+departmentSelect.disabled = false
+analyzeBtn.disabled = false
+checkSymptomFormValidity()
       // Update profile display with logged-in user info
       displayUserProfile(result.user)
       // Optionally, hide auth forms after successful login
@@ -185,6 +189,10 @@ loginForm.addEventListener("submit", async (event) => {
 // Initial checks and event listeners
 document.addEventListener("DOMContentLoaded", () => {
   checkSymptomFormValidity()
+  symptomTextarea.disabled = true
+departmentSelect.disabled = true
+analyzeBtn.disabled = true
+gotoDoctorBtn.disabled = true
 
 })
 
