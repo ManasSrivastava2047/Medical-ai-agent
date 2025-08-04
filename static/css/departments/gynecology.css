@@ -13,6 +13,17 @@
   --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
   --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.1);
   --shadow-strong: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+  /* Dark Mode Variables */
+  --dark-color-primary: #c2185b;
+  --dark-color-secondary: #d81b60;
+  --dark-color-accent: #ab47bc;
+  --dark-color-background: #212121;
+  --dark-color-card-bg: #333333;
+  --dark-color-text-dark: #e0e0e0;
+  --dark-color-text-light: #f5f5f5;
+  --dark-shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --dark-shadow-strong: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -23,6 +34,142 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+  background-color: var(--dark-color-background);
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .card {
+  background-color: var(--dark-color-card-bg);
+  box-shadow: var(--dark-shadow-medium);
+}
+
+body[data-theme="dark"] .card:hover {
+  box-shadow: var(--dark-shadow-strong);
+}
+
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3 {
+  color: var(--dark-color-primary);
+}
+
+body[data-theme="dark"] .hero-header {
+  background: linear-gradient(135deg, var(--dark-color-primary) 0%, #880e4f 100%);
+}
+
+body[data-theme="dark"] .back-button,
+body[data-theme="dark"] .femininity-symbol {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--dark-color-text-light);
+}
+
+body[data-theme="dark"] .back-button:hover,
+body[data-theme="dark"] .femininity-symbol:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+body[data-theme="dark"] .ai-disclaimer {
+  background-color: #424242;
+  color: #ffeb3b;
+}
+
+body[data-theme="dark"] .chat-container {
+  border-color: #555;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="dark"] .chat-messages {
+  background-color: #2c2c2c;
+}
+
+body[data-theme="dark"] .user-message {
+  background-color: #4a4a4a;
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .ai-message {
+  background-color: #5a5a5a;
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .chat-input-area {
+  border-top-color: #555;
+  background-color: #333;
+}
+
+body[data-theme="dark"] .chat-input-area input {
+  background-color: #424242;
+  border-color: #666;
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .chat-input-area input:focus {
+  border-color: var(--dark-color-secondary);
+  box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.2);
+}
+
+body[data-theme="dark"] .chat-input-area button {
+  background-color: var(--dark-color-secondary);
+}
+
+body[data-theme="dark"] .chat-input-area button:hover {
+  background-color: var(--dark-color-primary);
+}
+
+body[data-theme="dark"] .status-item,
+body[data-theme="dark"] .service-item,
+body[data-theme="dark"] .team-member,
+body[data-theme="dark"] .faq-item {
+  background-color: #424242;
+}
+
+body[data-theme="dark"] .status-item:hover,
+body[data-theme="dark"] .service-item:hover,
+body[data-theme="dark"] .team-member:hover,
+body[data-theme="dark"] .faq-item:hover {
+  box-shadow: var(--dark-shadow-medium);
+}
+
+body[data-theme="dark"] .status-value .number,
+body[data-theme="dark"] .status-header h3,
+body[data-theme="dark"] .service-item h3,
+body[data-theme="dark"] .team-member h3 {
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .status-value .total,
+body[data-theme="dark"] .status-value .unit,
+body[data-theme="dark"] .service-item p,
+body[data-theme="dark"] .team-member .specialty {
+  color: var(--dark-color-text-dark);
+  opacity: 0.8;
+}
+
+body[data-theme="dark"] .faq-question {
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .faq-answer {
+  background-color: #555;
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] footer {
+  background-color: var(--dark-color-primary);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="dark"] footer a {
+  color: var(--dark-color-text-light);
+}
+
+body[data-theme="dark"] footer a:hover {
+  color: var(--dark-color-accent);
 }
 
 .container {
@@ -37,7 +184,7 @@ body {
   margin-bottom: 2rem;
   border-radius: 12px;
   box-shadow: var(--shadow-medium);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .card:hover {
@@ -138,178 +285,342 @@ h3 {
   transform: translateX(-5px);
 }
 
-/* About Section */
-.about-section p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 1rem;
+.femininity-symbol {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-text-light);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 1.5rem; /* Larger icon */
+  cursor: default; /* Not clickable */
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* Glow effect */
 }
 
-/* Services Grid */
-.services-grid {
+.femininity-symbol i {
+  animation: pulse-glow 2s infinite alternate; /* Subtle animation */
+}
+
+@keyframes pulse-glow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  position: absolute;
+  top: 2rem;
+  right: 10rem; /* Adjusted position to make space for femininity symbol */
+  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--color-text-light);
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 10; /* Ensure it's above other content */
+}
+
+.dark-mode-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+body[data-theme="dark"] .dark-mode-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--dark-color-text-dark);
+}
+
+body[data-theme="dark"] .dark-mode-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Common Conditions & Services / Advanced Procedures & Treatments */
+.symptoms-section ul,
+.procedures-section ul,
+.education-section ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.symptoms-section li,
+.procedures-section li,
+.education-section li {
+  background-color: #f8f9fa;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+body[data-theme="dark"] .symptoms-section li,
+body[data-theme="dark"] .procedures-section li,
+body[data-theme="dark"] .education-section li {
+  background-color: #424242;
+}
+
+.symptoms-section li:hover,
+.procedures-section li:hover,
+.education-section li:hover {
+  transform: translateX(5px);
+  background-color: #f0f0f0;
+}
+
+body[data-theme="dark"] .symptoms-section li:hover,
+body[data-theme="dark"] .procedures-section li:hover,
+body[data-theme="dark"] .education-section li:hover {
+  background-color: #555;
+}
+
+.list-icon {
+  color: var(--color-secondary);
+  font-size: 1.2rem;
+}
+
+.link-icon {
+  color: var(--color-accent);
+  font-size: 1rem;
+}
+
+/* Doctors Section */
+.doctor-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
-.service-item {
-  background-color: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 12px;
+.doctor-card {
   text-align: center;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.service-item:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
-  border-color: var(--color-secondary);
-}
-
-.service-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  font-size: 2rem;
-  color: white;
-}
-
-.service-icon.routine {
-  background: linear-gradient(135deg, #4caf50, #8bc34a); /* Green */
-}
-
-.service-icon.prenatal {
-  background: linear-gradient(135deg, #2196f3, #03a9f4); /* Blue */
-}
-
-.service-icon.family-planning {
-  background: linear-gradient(135deg, #ffc107, #ffeb3b); /* Amber */
-}
-
-.service-icon.menopause {
-  background: linear-gradient(135deg, #9c27b0, #e040fb); /* Purple */
-}
-
-.service-icon.surgery {
-  background: linear-gradient(135deg, #f44336, #e57373); /* Red */
-}
-
-.service-icon.fertility {
-  background: linear-gradient(135deg, #00bcd4, #00e5ff); /* Cyan */
-}
-
-.service-item h3 {
-  color: var(--color-text-dark);
-  margin-bottom: 0.75rem;
-}
-
-.service-item p {
-  color: var(--color-text-dark);
-  opacity: 0.8;
-  margin-bottom: 1rem;
-}
-
-.service-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.service-status.active {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.service-status.active i {
-  color: var(--color-success);
-}
-
-/* Team Section */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.team-member {
-  background-color: #f8f9fa;
   padding: 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
 }
 
-.team-member:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
-}
-
-.member-avatar {
-  width: 80px;
-  height: 80px;
+.doctor-avatar {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 1rem;
   border: 3px solid var(--color-secondary);
 }
 
-.team-member h3 {
-  color: var(--color-text-dark);
+.doctor-card h3 {
   margin-bottom: 0.5rem;
-}
-
-.team-member .role {
-  color: var(--color-secondary);
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.team-member .specialty {
   color: var(--color-text-dark);
-  opacity: 0.8;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
 }
 
-.availability {
+body[data-theme="dark"] .doctor-card h3 {
+  color: var(--dark-color-text-dark);
+}
+
+.doctor-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.doctor-card strong {
+  color: var(--color-primary);
+}
+
+.doctor-actions {
+  margin-top: 1rem;
+}
+
+.book-btn {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
 }
 
-.availability.on-duty {
+.book-btn:hover {
+  background-color: #c2185b;
+  transform: translateY(-2px);
+}
+
+.book-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Appointments Section */
+.appointment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.appointment-item {
+  background-color: #f8f9fa;
+  padding: 1.2rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-light);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body[data-theme="dark"] .appointment-item {
+  background-color: #424242;
+}
+
+.appointment-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+}
+
+.appointment-details h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-dark);
+}
+
+body[data-theme="dark"] .appointment-details h3 {
+  color: var(--dark-color-text-dark);
+}
+
+.appointment-details p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.appointment-status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-upcoming {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-completed {
   background-color: #d4edda;
   color: #155724;
 }
 
-.availability.on-duty i {
-  color: var(--color-success);
-  animation: pulse 2s infinite;
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Online Consultation */
+.online-consultation-section {
+  text-align: center;
+}
+
+.consult-btn {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.consult-btn:hover {
+  background-color: #7b1fa2;
+  transform: translateY(-2px);
+}
+
+/* FAQ Section */
+.faq-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+body[data-theme="dark"] .faq-item {
+  border-bottom-color: #555;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  color: var(--color-text-dark);
+}
+
+body[data-theme="dark"] .faq-question {
+  color: var(--dark-color-text-dark);
+}
+
+.faq-question:hover {
+  color: var(--color-primary);
+}
+
+body[data-theme="dark"] .faq-question:hover {
+  color: var(--dark-color-primary);
+}
+
+.faq-question .arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+.faq-question[aria-expanded="true"] .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none; /* Hidden by default */
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+  background-color: #fcfcfc;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
+body[data-theme="dark"] .faq-answer {
+  background-color: #555;
+  color: var(--dark-color-text-dark);
 }
 
 /* AI Chat Section */
@@ -429,6 +740,7 @@ footer {
   margin-top: 3rem;
   font-size: 0.9rem;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 footer p {
@@ -462,6 +774,13 @@ footer p {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .dark-mode-toggle {
+    right: 2rem; /* Move dark mode toggle to the right on smaller screens */
+    top: 6rem; /* Adjust position to avoid overlap with femininity symbol */
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 2.5rem;
@@ -482,6 +801,20 @@ footer p {
     font-size: 0.9rem;
   }
 
+  .femininity-symbol {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 1.2rem;
+  }
+
+  .dark-mode-toggle {
+    top: 5rem; /* Adjust position */
+    right: 1rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
   .container {
     padding: 1rem;
   }
@@ -490,8 +823,11 @@ footer p {
     padding: 1.5rem;
   }
 
-  .services-grid,
-  .team-grid {
+  .symptoms-section ul,
+  .procedures-section ul,
+  .education-section ul,
+  .doctor-grid,
+  .appointment-list {
     grid-template-columns: 1fr;
   }
 
