@@ -73,11 +73,6 @@ body[data-theme="dark"] .femininity-symbol:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-body[data-theme="dark"] .ai-disclaimer {
-  background-color: #424242;
-  color: #ffeb3b;
-}
-
 body[data-theme="dark"] .chat-container {
   border-color: #555;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
@@ -628,23 +623,6 @@ body[data-theme="dark"] .faq-answer {
 padding: 2rem;
 } */
 
-.ai-disclaimer {
-  background-color: #fff3cd;
-  color: #856404;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-}
-
-.ai-disclaimer i {
-  color: var(--color-warning);
-  font-size: 1.2rem;
-}
-
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -884,10 +862,6 @@ body[data-theme="dark"] .dialog-header {
 }
 
 /* Adjust existing chat styles to fit dialog-content */
-.ai-disclaimer {
-  margin-bottom: 1rem; /* Adjust margin for dialog context */
-}
-
 .chat-container {
   flex-grow: 1;
   height: auto; /* Let it grow within dialog-content */
