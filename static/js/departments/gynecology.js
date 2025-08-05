@@ -10,12 +10,73 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeBooking()
 })
 
-// AI Chat Functionality
+// AI Chat Functionality (Modified for Dialog)
 function initializeAIChat() {
+  const aiChatLauncher = document.getElementById("ai-chat-launcher")
+  const aiChatDialog = document.getElementById("ai-chat-dialog")
+  const closeChatDialogButton = document.getElementById("close-chat-dialog")
+  const dialogHeader = document.getElementById("dialog-header") // For dragging
   const userInput = document.getElementById("user-input")
   const sendButton = document.getElementById("send-button")
   const chatMessages = document.getElementById("chat-messages")
 
+  let isDragging = false
+  let offsetX, offsetY
+
+  // Open dialog
+  aiChatLauncher.addEventListener("click", () => {
+    aiChatDialog.style.display = "flex"
+    aiChatLauncher.style.display = "none" // Hide launcher when dialog is open
+    chatMessages.scrollTop = chatMessages.scrollHeight // Scroll to bottom on open
+  })
+
+  // Close dialog
+  closeChatDialogButton.addEventListener("click", () => {
+    aiChatDialog.style.display = "none"
+    aiChatLauncher.style.display = "flex" // Show launcher when dialog is closed
+  })
+
+  // Make dialog draggable
+  dialogHeader.addEventListener("mousedown", (e) => {
+    isDragging = true
+    aiChatDialog.classList.add("dragging")
+    offsetX = e.clientX - aiChatDialog.getBoundingClientRect().left
+    offsetY = e.clientY - aiChatDialog.getBoundingClientRect().top
+    aiChatDialog.style.cursor = "grabbing"
+  })
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return
+
+    let newLeft = e.clientX - offsetX
+    let newTop = e.clientY - offsetY
+
+    // Boundary checks
+    const dialogRect = aiChatDialog.getBoundingClientRect()
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+
+    // Prevent dragging outside left/top
+    newLeft = Math.max(0, newLeft)
+    newTop = Math.max(0, newTop)
+
+    // Prevent dragging outside right/bottom
+    newLeft = Math.min(newLeft, viewportWidth - dialogRect.width)
+    newTop = Math.min(newTop, viewportHeight - dialogRect.height)
+
+    aiChatDialog.style.left = `${newLeft}px`
+    aiChatDialog.style.top = `${newTop}px`
+    aiChatDialog.style.right = "auto" // Disable right/bottom positioning when dragging
+    aiChatDialog.style.bottom = "auto"
+  })
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false
+    aiChatDialog.classList.remove("dragging")
+    aiChatDialog.style.cursor = "grab"
+  })
+
+  // Existing chat message logic
   function addMessage(sender, message) {
     const messageDiv = document.createElement("div")
     messageDiv.classList.add("message", `${sender}-message`)
@@ -175,14 +236,14 @@ function initializeBooking() {
         const newAppointmentItem = document.createElement("li")
         newAppointmentItem.classList.add("appointment-item")
         newAppointmentItem.innerHTML = `
-          <div class="appointment-details">
-            <h3>Appointment with ${doctorName}</h3>
-            <p><strong>Date:</strong> ${formattedDate}</p>
-            <p><strong>Time:</strong> ${formattedTime}</p>
-            <p><strong>Reason:</strong> ${reason}</p>
-          </div>
-          <span class="appointment-status status-pending">Pending Confirmation</span>
-        `
+        <div class="appointment-details">
+          <h3>Appointment with ${doctorName}</h3>
+          <p><strong>Date:</strong> ${formattedDate}</p>
+          <p><strong>Time:</strong> ${formattedTime}</p>
+          <p><strong>Reason:</strong> ${reason}</p>
+        </div>
+        <span class="appointment-status status-pending">Pending Confirmation</span>
+      `
         appointmentList.appendChild(newAppointmentItem)
         alert(
           `Appointment with ${doctorName} for "${reason}" on ${formattedDate} at ${formattedTime} has been requested.`,
