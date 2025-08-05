@@ -12,7 +12,7 @@
 <header class="hero-header">
   <div class="header-content">
     <a href="bookappt.html" class="back-button" aria-label="Back to Book Appointment">
-      <i class="fas fa-arrow-left"></i> Back
+      <i class="fas fa-arrow-left"></i> Back to Booking
     </a>
     <div class="heartbeat-animation" aria-hidden="true">
       <i class="fas fa-heartbeat"></i>
@@ -202,19 +202,6 @@
     </div>
   </section>
 
-  <section class="ai-chat-section card">
-    <h2><i class="fas fa-robot icon"></i> Ask Our Cardiology AI Assistant</h2>
-    <div class="chat-container">
-      <div id="chat-messages" class="chat-messages">
-        <div class="message ai-message">Hello! I'm your Cardiology AI Assistant. How can I help you today?</div>
-      </div>
-      <div class="chat-input-area">
-        <input type="text" id="user-input" placeholder="Type your question here..." aria-label="Type your question">
-        <button id="send-button" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
-      </div>
-    </div>
-  </section>
-
   <section class="contact-section card">
     <h2><i class="fas fa-info-circle icon"></i> Department Information</h2>
     <div class="contact-info">
@@ -246,6 +233,36 @@
     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
   </div>
 </footer>
+
+<!-- AI Chat Launcher Icon -->
+<div class="ai-chat-launcher" id="ai-chat-launcher" aria-label="Open AI Chat">
+  <i class="fas fa-comments"></i>
+</div>
+
+<!-- AI Chat Dialog Box -->
+<div class="ai-chat-dialog" id="ai-chat-dialog" style="display: none;">
+  <div class="dialog-header" id="dialog-header">
+    <h3>AI Cardiology Assistant</h3>
+    <button class="close-button" id="close-chat-dialog" aria-label="Close chat">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="dialog-content">
+    <div class="chat-container">
+      <div id="chat-messages" class="chat-messages">
+        <div class="message ai-message">
+          Hello! I'm your Cardiology AI Assistant. I can provide general information about heart health, symptoms, and treatments. How can I assist you today?
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Ask about heart conditions, symptoms, or treatments..." aria-label="Type your question">
+        <button id="send-button" aria-label="Send message">
+          <i class="fas fa-paper-plane"></i> Send
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="{{ url_for('static', filename='js/departments/cardiology.js') }}"></script>
 </body>

@@ -29,6 +29,9 @@ body[data-theme="dark"] {
   --color-error: #c0392b;
   --color-disabled: #7f8c8d;
   --border-color: #6b3e3e;
+  --dark-color-primary: #ff6b6b;
+  --dark-shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --dark-color-card-bg: #3a2525;
 }
 
 body {
@@ -611,30 +614,141 @@ body[data-theme="dark"] .education-section li a:hover {
   color: var(--color-secondary);
 }
 
-/* AI Chat Section */
-.ai-chat-section {
-  padding: 2rem;
+/* AI Chat Launcher Icon */
+.ai-chat-launcher {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--color-primary);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-strong);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  z-index: 1000; /* Ensure it's on top */
 }
 
-.chat-container {
+.ai-chat-launcher:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="dark"] .ai-chat-launcher {
+  background-color: var(--dark-color-primary);
+  box-shadow: var(--dark-shadow-strong);
+}
+
+body[data-theme="dark"] .ai-chat-launcher:hover {
+  background-color: var(--dark-color-secondary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* AI Chat Dialog Box */
+.ai-chat-dialog {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 380px; /* Adjusted width for better chat experience */
+  height: 500px; /* Adjusted height */
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-strong);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
   overflow: hidden;
-  height: 450px; /* Slightly increased height */
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-  background-color: var(--color-card-bg);
+  z-index: 999; /* Below launcher when closed, but above other content */
+  resize: both; /* Allow resizing */
+  min-width: 300px;
+  min-height: 400px;
+}
+
+body[data-theme="dark"] .ai-chat-dialog {
+  background-color: var(--dark-color-card-bg);
+  box-shadow: var(--dark-shadow-strong);
+}
+
+.ai-chat-dialog.dragging {
+  cursor: grabbing;
+}
+
+.dialog-header {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  cursor: grab; /* Indicate draggable area */
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+body[data-theme="dark"] .dialog-header {
+  background-color: var(--dark-color-primary);
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: white; /* Override primary color for header text */
+}
+
+.dialog-header .close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.dialog-header .close-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dialog-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem; /* Add padding to the content area */
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+/* Adjust existing chat styles to fit dialog-content */
+.chat-container {
+  flex-grow: 1;
+  height: auto; /* Let it grow within dialog-content */
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* Slightly smaller radius for inner container */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
+}
+
+body[data-theme="dark"] .chat-container {
+  border-color: #555;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .chat-messages {
   flex-grow: 1;
-  padding: 1rem;
+  padding: 0.8rem; /* Slightly less padding */
   overflow-y: auto;
   background-color: var(--color-background);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem; /* Slightly less gap */
 }
 
 body[data-theme="dark"] .chat-messages {
@@ -832,8 +946,26 @@ footer p {
     padding: 1rem;
   }
 
-  .chat-container {
-    height: 350px;
+  /* AI Chat Launcher Icon */
+  .ai-chat-launcher {
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  /* AI Chat Dialog Box */
+  .ai-chat-dialog {
+    width: 90vw; /* Take up more width on small screens */
+    height: 80vh; /* Take up more height */
+    bottom: 1rem;
+    right: 1rem;
+    left: 5vw; /* Center horizontally */
+    top: 10vh; /* Center vertically */
+    transform: none !important; /* Disable initial transform for centering */
+    margin: auto; /* For centering */
+    resize: none; /* Disable resizing on small screens */
   }
 
   .chat-input-area {
